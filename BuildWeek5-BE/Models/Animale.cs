@@ -13,7 +13,7 @@ namespace BuildWeek5_BE.Models
 
         [Required]
         [DataType(DataType.Date)]
-        public DateOnly DataRegistrazione { get; set; }
+        public DateOnly DataRegistrazione { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
         [Required]
         [StringLength(50)]

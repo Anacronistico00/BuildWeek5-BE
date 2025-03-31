@@ -4,6 +4,7 @@ using BuildWeek5_BE.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuildWeek5_BE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250331132148_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,19 +108,15 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-
                             Id = "5a1efe9d-0a2a-447a-96e3-984cf4a6b5b9",
                             ConcurrencyStamp = "5a1efe9d-0a2a-447a-96e3-984cf4a6b5b9",
-
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-
                             Id = "e723363a-2340-4ebc-bfdd-2d0aa9d98951",
                             ConcurrencyStamp = "e723363a-2340-4ebc-bfdd-2d0aa9d98951",
-
                             Name = "User",
                             NormalizedName = "USER"
                         });
