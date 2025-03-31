@@ -1,0 +1,6 @@
+@BuildWeek5_BE_HostAddress = http://localhost:5064
+
+GET {{BuildWeek5_BE_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
