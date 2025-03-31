@@ -81,8 +81,20 @@ namespace BuildWeek5_BE.Data
 
             modelBuilder.Entity<Cassetto>().HasData(
                 new Cassetto { CassettoId = 1, ArmadiettoId = 1 },
+                new Cassetto { CassettoId = 2, ArmadiettoId = 1 },
+                new Cassetto { CassettoId = 3, ArmadiettoId = 1 },
+                new Cassetto { CassettoId = 4, ArmadiettoId = 1 },
+                new Cassetto { CassettoId = 5, ArmadiettoId = 1 },
+                new Cassetto { CassettoId = 1, ArmadiettoId = 2 },
                 new Cassetto { CassettoId = 2, ArmadiettoId = 2 },
-                new Cassetto { CassettoId = 3, ArmadiettoId = 3 }
+                new Cassetto { CassettoId = 3, ArmadiettoId = 2 },
+                new Cassetto { CassettoId = 4, ArmadiettoId = 2 },
+                new Cassetto { CassettoId = 5, ArmadiettoId = 2 },
+                new Cassetto { CassettoId = 1, ArmadiettoId = 3 },
+                new Cassetto { CassettoId = 2, ArmadiettoId = 3 },
+                new Cassetto { CassettoId = 3, ArmadiettoId = 3 },
+                new Cassetto { CassettoId = 4, ArmadiettoId = 3 },
+                new Cassetto { CassettoId = 5, ArmadiettoId = 3 }
             );
 
             modelBuilder.Entity<Fornitore>().HasData(
