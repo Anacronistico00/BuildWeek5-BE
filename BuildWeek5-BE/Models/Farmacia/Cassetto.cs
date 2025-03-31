@@ -6,7 +6,7 @@ namespace BuildWeek5_BE.Models.Farmacia
     public class Cassetto
     {
         [Key]
-        public int Id { get; set; }
+        public int CassettoId { get; set; }
 
         [Required]
         public int ArmadiettoId { get; set; }

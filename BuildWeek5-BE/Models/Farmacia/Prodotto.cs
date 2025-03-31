@@ -25,6 +25,11 @@ namespace BuildWeek5_BE.Models.Farmacia
 
         public Cassetto Cassetto { get; set; }
 
+        [ForeignKey(nameof(Armadietto))]
+        public int ArmadiettoId { get; set; }
+
+        public Armadietto Armadietto { get; set; }
+
         public ICollection<Vendita> vendite { get; set; }
     }
 }

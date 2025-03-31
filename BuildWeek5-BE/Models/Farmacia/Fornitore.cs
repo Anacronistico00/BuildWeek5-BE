@@ -18,5 +18,7 @@ namespace BuildWeek5_BE.Models.Farmacia
         [Required]
         [StringLength(200)]
         public string Indirizzo { get; set; }
+
+        public ICollection<Prodotto> Prodotti { get; set; }
     }
 }

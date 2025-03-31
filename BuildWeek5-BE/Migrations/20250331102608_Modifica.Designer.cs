@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuildWeek5_BE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250331095030_modified")]
-    partial class modified
+    [Migration("20250331102608_Modifica")]
+    partial class Modifica
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,15 +54,15 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "27436a26-ace1-4143-bc00-8255c8d7b2fc",
-                            ConcurrencyStamp = "27436a26-ace1-4143-bc00-8255c8d7b2fc",
+                            Id = "4d08864b-fc4b-43f9-a636-74400088f0cc",
+                            ConcurrencyStamp = "4d08864b-fc4b-43f9-a636-74400088f0cc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "011bde2d-1ad8-4ec4-965a-5a96c6d8e8f7",
-                            ConcurrencyStamp = "011bde2d-1ad8-4ec4-965a-5a96c6d8e8f7",
+                            Id = "8a5686f2-8875-4758-88e5-1db55543cac1",
+                            ConcurrencyStamp = "8a5686f2-8875-4758-88e5-1db55543cac1",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -98,9 +98,6 @@ namespace BuildWeek5_BE.Migrations
                         .IsRequired()
                         .HasMaxLength(16)
                         .HasColumnType("nvarchar(16)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -174,33 +171,64 @@ namespace BuildWeek5_BE.Migrations
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Armadietto", b =>
                 {
-                    b.Property<int>("Codice")
+                    b.Property<int>("ArmadiettoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Codice"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ArmadiettoId"));
 
-                    b.HasKey("Codice");
+                    b.HasKey("ArmadiettoId");
 
                     b.ToTable("Armadietti");
+
+                    b.HasData(
+                        new
+                        {
+                            ArmadiettoId = 1
+                        },
+                        new
+                        {
+                            ArmadiettoId = 2
+                        },
+                        new
+                        {
+                            ArmadiettoId = 3
+                        });
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Cassetto", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CassettoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CassettoId"));
 
                     b.Property<int>("ArmadiettoId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("CassettoId");
 
                     b.HasIndex("ArmadiettoId");
 
                     b.ToTable("Cassetti");
+
+                    b.HasData(
+                        new
+                        {
+                            CassettoId = 1,
+                            ArmadiettoId = 1
+                        },
+                        new
+                        {
+                            CassettoId = 2,
+                            ArmadiettoId = 2
+                        },
+                        new
+                        {
+                            CassettoId = 3,
+                            ArmadiettoId = 3
+                        });
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Fornitore", b =>
@@ -228,7 +256,30 @@ namespace BuildWeek5_BE.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Fornitore");
+                    b.ToTable("Fornitori");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Indirizzo = "Via Roma 10",
+                            Nome = "Farmaceutica ABC",
+                            Recapito = "123456789"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Indirizzo = "Via Milano 20",
+                            Nome = "VetCare Ltd.",
+                            Recapito = "987654321"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Indirizzo = "Via Torino 30",
+                            Nome = "SalutePet",
+                            Recapito = "555666777"
+                        });
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Prodotto", b =>
@@ -238,6 +289,9 @@ namespace BuildWeek5_BE.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ArmadiettoId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CassettoId")
                         .HasColumnType("int");
@@ -252,6 +306,8 @@ namespace BuildWeek5_BE.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ArmadiettoId");
+
                     b.HasIndex("CassettoId");
 
                     b.HasIndex("FornitoreId");
@@ -260,6 +316,32 @@ namespace BuildWeek5_BE.Migrations
                         .IsUnique();
 
                     b.ToTable("Prodotti");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ArmadiettoId = 1,
+                            CassettoId = 1,
+                            FornitoreId = 1,
+                            Nome = "Antibiotico X"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ArmadiettoId = 2,
+                            CassettoId = 2,
+                            FornitoreId = 2,
+                            Nome = "Antiparassitario Y"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ArmadiettoId = 3,
+                            CassettoId = 3,
+                            FornitoreId = 3,
+                            Nome = "Integratore Z"
+                        });
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.UsoProdotto", b =>
@@ -282,7 +364,7 @@ namespace BuildWeek5_BE.Migrations
 
                     b.HasIndex("ProdottoId");
 
-                    b.ToTable("UsoProdotto");
+                    b.ToTable("UsiProdotti");
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Vendita", b =>
@@ -343,18 +425,13 @@ namespace BuildWeek5_BE.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<string>("ProprietarioCognome")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ProprietarioNome")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("Tipologia")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("PuppyId");
 
@@ -362,11 +439,13 @@ namespace BuildWeek5_BE.Migrations
                         .IsUnique()
                         .HasFilter("[NumeroMicrochip] IS NOT NULL");
 
-                    b.HasIndex("Nome", "ProprietarioNome", "ProprietarioCognome")
-                        .IsUnique()
-                        .HasFilter("[ProprietarioNome] IS NOT NULL AND [ProprietarioCognome] IS NOT NULL");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Animali");
+                    b.HasIndex("Nome", "UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("Puppies");
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Ricovero", b =>
@@ -548,6 +627,12 @@ namespace BuildWeek5_BE.Migrations
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Prodotto", b =>
                 {
+                    b.HasOne("BuildWeek5_BE.Models.Farmacia.Armadietto", "Armadietto")
+                        .WithMany()
+                        .HasForeignKey("ArmadiettoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BuildWeek5_BE.Models.Farmacia.Cassetto", "Cassetto")
                         .WithMany("prodotti")
                         .HasForeignKey("CassettoId")
@@ -555,10 +640,12 @@ namespace BuildWeek5_BE.Migrations
                         .IsRequired();
 
                     b.HasOne("BuildWeek5_BE.Models.Farmacia.Fornitore", "Fornitore")
-                        .WithMany()
+                        .WithMany("Prodotti")
                         .HasForeignKey("FornitoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Armadietto");
 
                     b.Navigation("Cassetto");
 
@@ -591,6 +678,15 @@ namespace BuildWeek5_BE.Migrations
                         .IsRequired();
 
                     b.Navigation("Prodotto");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BuildWeek5_BE.Models.Puppy", b =>
+                {
+                    b.HasOne("BuildWeek5_BE.Models.Auth.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -671,6 +767,11 @@ namespace BuildWeek5_BE.Migrations
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Cassetto", b =>
                 {
                     b.Navigation("prodotti");
+                });
+
+            modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Fornitore", b =>
+                {
+                    b.Navigation("Prodotti");
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Prodotto", b =>
