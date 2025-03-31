@@ -15,7 +15,9 @@ namespace BuildWeek5_BE.Models.Auth
         [Required]
         public required DateOnly BirthDate { get; set; }
 
-        public bool IsDeleted { get; set; } = false;
+        [Required]
+        [StringLength(16)]
+        public required string FiscalCode { get; set; }
 
         public ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; }
     }

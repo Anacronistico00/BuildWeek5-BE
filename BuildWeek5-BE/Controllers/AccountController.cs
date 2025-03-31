@@ -44,7 +44,8 @@ namespace BuildWeek5_BE.Controllers
                 UserName = registerRequestDto.Email,
                 FirstName = registerRequestDto.FirstName,
                 LastName = registerRequestDto.LastName,
-                BirthDate = registerRequestDto.BirthDate
+                BirthDate = registerRequestDto.BirthDate,
+                FiscalCode = registerRequestDto.FiscalCode
             };
 
             var result = await _userManager.CreateAsync(newUser, registerRequestDto.Password);
