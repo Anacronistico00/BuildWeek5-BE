@@ -5,7 +5,7 @@ namespace BuildWeek5_BE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RicoveriController : ControllerBase
+    public class VisitaController : ControllerBase
     {
     }
 }
