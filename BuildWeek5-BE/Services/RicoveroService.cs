@@ -70,7 +70,7 @@ namespace BuildWeek5_BE.Services
             }
         }
 
-        public async Task<RicoveroDetailDto> GetRicoveroByIdAsync(int id)
+        public async Task<RicoveroDetailDto?> GetRicoveroByIdAsync(int id)
         {
             try
             {
@@ -78,10 +78,7 @@ namespace BuildWeek5_BE.Services
                     .Include(r => r.Puppy)
                     .FirstOrDefaultAsync(r => r.RicoveroId == id);
 
-                if (ricovero == null)
-                    return null;
-
-                return new RicoveroDetailDto
+                return ricovero == null ? null : new RicoveroDetailDto
                 {
                     RicoveroId = ricovero.RicoveroId,
                     PuppyId = ricovero.PuppyId,
@@ -106,11 +103,10 @@ namespace BuildWeek5_BE.Services
                 if (puppy == null)
                     throw new ArgumentException("Puppy non trovato");
 
-                var ricoveroAttivo = await _context.Ricoveri
-                    .Where(r => r.PuppyId == createRicoveroDto.PuppyId && r.DataFineRicovero == null)
-                    .FirstOrDefaultAsync();
+                bool hasActiveRicovero = await _context.Ricoveri
+                    .AnyAsync(r => r.PuppyId == createRicoveroDto.PuppyId && r.DataFineRicovero == null);
 
-                if (ricoveroAttivo != null)
+                if (hasActiveRicovero)
                     throw new InvalidOperationException("Questo puppy ha già un ricovero attivo. Chiudi il ricovero esistente prima di crearne uno nuovo.");
 
                 var ricovero = new Ricovero
@@ -141,46 +137,33 @@ namespace BuildWeek5_BE.Services
             }
         }
 
-        public async Task<RicoveroDetailDto> UpdateRicoveroAsync(int id, UpdateRicoveroDto updateRicoveroDto)
+        public async Task<RicoveroDetailDto?> UpdateRicoveroAsync(int id, UpdateRicoveroDto updateRicoveroDto)
         {
             try
             {
-                var ricovero = await _context.Ricoveri.FindAsync(id);
+                var ricovero = await _context.Ricoveri
+                    .Include(r => r.Puppy)
+                    .FirstOrDefaultAsync(r => r.RicoveroId == id);
+
                 if (ricovero == null)
-                    return null;
+                    throw new KeyNotFoundException($"Ricovero con ID {id} non trovato.");
 
-                if (ricovero.DataFineRicovero == null && updateRicoveroDto.DataFineRicovero.HasValue)
-                {
-                    if (updateRicoveroDto.DataFineRicovero.Value <= ricovero.DataInizioRicovero)
-                        throw new InvalidOperationException("La data di fine ricovero deve essere successiva alla data di inizio.");
-                }
-                else if (ricovero.DataFineRicovero.HasValue && !updateRicoveroDto.DataFineRicovero.HasValue)
-                {
-                    var altroRicoveroAttivo = await _context.Ricoveri
-                        .Where(r => r.PuppyId == ricovero.PuppyId && r.RicoveroId != id && r.DataFineRicovero == null)
-                        .AnyAsync();
-
-                    if (altroRicoveroAttivo)
-                        throw new InvalidOperationException("Non è possibile riaprire questo ricovero perché esiste già un ricovero attivo per questo puppy.");
-                }
+                if (updateRicoveroDto.DataFineRicovero.HasValue && updateRicoveroDto.DataFineRicovero.Value <= ricovero.DataInizioRicovero)
+                    throw new InvalidOperationException("La data di fine ricovero deve essere successiva alla data di inizio.");
 
                 ricovero.Descrizione = updateRicoveroDto.Descrizione;
                 ricovero.DataFineRicovero = updateRicoveroDto.DataFineRicovero;
 
                 await _context.SaveChangesAsync();
 
-                var updatedRicovero = await _context.Ricoveri
-                    .Include(r => r.Puppy)
-                    .FirstOrDefaultAsync(r => r.RicoveroId == id);
-
                 return new RicoveroDetailDto
                 {
-                    RicoveroId = updatedRicovero.RicoveroId,
-                    PuppyId = updatedRicovero.PuppyId,
-                    PuppyNome = updatedRicovero.Puppy.Nome,
-                    DataInizioRicovero = updatedRicovero.DataInizioRicovero,
-                    Descrizione = updatedRicovero.Descrizione,
-                    DataFineRicovero = updatedRicovero.DataFineRicovero
+                    RicoveroId = ricovero.RicoveroId,
+                    PuppyId = ricovero.PuppyId,
+                    PuppyNome = ricovero.Puppy?.Nome ?? "Nome non disponibile",
+                    DataInizioRicovero = ricovero.DataInizioRicovero,
+                    Descrizione = ricovero.Descrizione,
+                    DataFineRicovero = ricovero.DataFineRicovero
                 };
             }
             catch (Exception ex)
