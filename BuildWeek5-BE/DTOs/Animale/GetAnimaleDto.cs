@@ -1,7 +1,6 @@
-﻿using BuildWeek5_BE.Models.Auth;
-using BuildWeek5_BE.Models;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using BuildWeek5_BE.DTOs.Account;
 
 namespace BuildWeek5_BE.DTOs.Puppy
 {
@@ -39,6 +38,6 @@ namespace BuildWeek5_BE.DTOs.Puppy
         [ForeignKey("User")]
         public string? UserId { get; set; }
 
-        public ApplicationUser? User { get; set; }
+        public UserDto? User { get; set; }
     }
 }

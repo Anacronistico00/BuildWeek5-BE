@@ -20,7 +20,7 @@ namespace BuildWeek5_BE.Models
         [StringLength(255)]
         public required string DescrizioneCura { get; set; }
 
-        [ForeignKey(nameof(Puppy))]
+        [ForeignKey(nameof(Animale))]
         public int PuppyId { get; set; }
 
         public Animale Animale { get; set; }
