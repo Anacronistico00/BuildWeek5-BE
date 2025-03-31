@@ -18,5 +18,8 @@ namespace BuildWeek5_BE.Models
 
         [Required]
         public required string Descrizione { get; set; }
+
+        public DateOnly? DataFineRicovero { get; set; }
+
     }
 }

@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="DTOs\Visita\" />
-    <Folder Include="DTOs\Ricovero\" />
     <Folder Include="DTOs\Puppy\" />
     <Folder Include="Services\" />
   </ItemGroup>
