@@ -1,11 +1,12 @@
-﻿using BuildWeek5_BE.Models.Auth;
-using BuildWeek5_BE.Models;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+using BuildWeek5_BE.Models.Auth;
 
-namespace BuildWeek5_BE.DTOs.Puppy
+namespace BuildWeek5_BE.Models
 {
-    public class GetPuppyDto
+    public class Animale
     {
         [Key]
         public int PuppyId { get; set; }
@@ -40,5 +41,10 @@ namespace BuildWeek5_BE.DTOs.Puppy
         public string? UserId { get; set; }
 
         public ApplicationUser? User { get; set; }
+
+        public ICollection<Visita>? Visite { get; set; }
+
+        public ICollection<Ricovero>? Ricoveri { get; set; }
     }
 }
+

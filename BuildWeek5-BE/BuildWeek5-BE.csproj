@@ -26,8 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\Visita\" />
     <Folder Include="DTOs\Ricovero\" />
+    <Folder Include="DTOs\Visita\" />
   </ItemGroup>
 
 </Project>

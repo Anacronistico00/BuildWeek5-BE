@@ -1,10 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using BuildWeek5_BE.Models.Auth;
+using BuildWeek5_BE.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace BuildWeek5_BE.DTOs.Puppy
 {
-    public class UpdatePuppyRequestDto
+    public class GetAnimaleDto
     {
+        [Key]
+        public int PuppyId { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        public DateOnly DataRegistrazione { get; set; }
+
         [Required]
         [StringLength(50)]
         public required string Nome { get; set; }
@@ -27,6 +36,9 @@ namespace BuildWeek5_BE.DTOs.Puppy
         [StringLength(15)]
         public string? NumeroMicrochip { get; set; }
 
+        [ForeignKey("User")]
         public string? UserId { get; set; }
+
+        public ApplicationUser? User { get; set; }
     }
 }

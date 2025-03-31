@@ -1,5 +1,6 @@
 using BuildWeek5_BE.Data;
 using BuildWeek5_BE.Models.Auth;
+using BuildWeek5_BE.Services;
 using BuildWeek5_BE.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -112,6 +113,7 @@ try
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     );
 
+    builder.Services.AddScoped<AnimaleService>();
 
     builder.Host.UseSerilog();
 

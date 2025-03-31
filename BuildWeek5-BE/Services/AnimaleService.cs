@@ -4,12 +4,12 @@ using BuildWeek5_BE.Models;
 
 namespace BuildWeek5_BE.Services
 {
-    public class PuppyService
+    public class AnimaleService
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<PuppyService> _logger;
+        private readonly ILogger<AnimaleService> _logger;
 
-        public PuppyService(ApplicationDbContext context, ILogger<PuppyService> logger)
+        public AnimaleService(ApplicationDbContext context, ILogger<AnimaleService> logger)
         {
             _context = context;
             _logger = logger;
@@ -28,11 +28,11 @@ namespace BuildWeek5_BE.Services
             }
         }
 
-        public async Task<Puppy> CreatePuppyAsync(AddPuppyRequestDto puppy)
+        public async Task<Animale> CreatePuppyAsync(AddAnimaleRequestDto puppy)
         {
             try
             {
-                var newPuppy = new Puppy()
+                var newPuppy = new Animale()
                 {
                     DataRegistrazione = DateOnly.FromDateTime(DateTime.Now),
                     Nome = puppy.Nome,
@@ -52,7 +52,7 @@ namespace BuildWeek5_BE.Services
             }
         }
 
-        public async Task<bool> addPuppyAsync(Puppy puppy)
+        public async Task<bool> addPuppyAsync(Animale puppy)
         {
             try
             {

@@ -23,6 +23,6 @@ namespace BuildWeek5_BE.Models
         [ForeignKey(nameof(Puppy))]
         public int PuppyId { get; set; }
 
-        public Puppy Puppy { get; set; }
+        public Animale Animale { get; set; }
     }
 }
