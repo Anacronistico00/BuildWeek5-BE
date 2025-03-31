@@ -107,5 +107,30 @@ namespace BuildWeek5_BE.Controllers
                 message = "Something went wrong!"
             });
         }
+
+        [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeletePuppy(int id)
+        {
+            var result = await _animaleService.DeletePuppyAsync(id);
+
+            return result ? Ok(new
+            {
+                message = "Puppy correctly removed!",
+            }) : BadRequest(new
+            {
+                message = "Something went wrong!"
+            });
+        }
+
+        [HttpPut("{id:int}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdatePuppy(int id, [FromBody] UpdateAnimaleRequestDto puppyDto)
+        {
+            var result = await _animaleService.UpdatePuppyAsync(id, puppyDto);
+
+            return result ? Ok(new { Message = "Puppy correctly updated!" })
+                          : BadRequest(new { Message = "Something went wrong!" });
+        }
     }
 }

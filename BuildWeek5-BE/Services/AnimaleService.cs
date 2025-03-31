@@ -170,7 +170,7 @@ namespace BuildWeek5_BE.Services
             }
         }
 
-        public async Task<bool> UpdateArtistAsync(int id, UpdateAnimaleRequestDto puppyDto)
+        public async Task<bool> UpdatePuppyAsync(int id, UpdateAnimaleRequestDto puppyDto)
         {
             try
             {
