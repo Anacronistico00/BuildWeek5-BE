@@ -22,6 +22,60 @@ namespace BuildWeek5_BE.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("BuildWeek5_BE.Models.Animale", b =>
+                {
+                    b.Property<int>("PuppyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PuppyId"));
+
+                    b.Property<string>("ColoreMantello")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateOnly>("DataNascita")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("DataRegistrazione")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("MicrochipPresente")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("NumeroMicrochip")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<string>("Tipologia")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("PuppyId");
+
+                    b.HasIndex("NumeroMicrochip")
+                        .IsUnique()
+                        .HasFilter("[NumeroMicrochip] IS NOT NULL");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("Nome", "UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("Puppies");
+                });
+
             modelBuilder.Entity("BuildWeek5_BE.Models.Auth.ApplicationRole", b =>
                 {
                     b.Property<string>("Id")
@@ -51,15 +105,19 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e72f2a43-34a8-4b8a-a256-0a91db69b09c",
-                            ConcurrencyStamp = "e72f2a43-34a8-4b8a-a256-0a91db69b09c",
+
+                            Id = "5a1efe9d-0a2a-447a-96e3-984cf4a6b5b9",
+                            ConcurrencyStamp = "5a1efe9d-0a2a-447a-96e3-984cf4a6b5b9",
+
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "163e6953-e5bd-494c-806b-41333a7b8d33",
-                            ConcurrencyStamp = "163e6953-e5bd-494c-806b-41333a7b8d33",
+
+                            Id = "e723363a-2340-4ebc-bfdd-2d0aa9d98951",
+                            ConcurrencyStamp = "e723363a-2340-4ebc-bfdd-2d0aa9d98951",
+
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -219,11 +277,71 @@ namespace BuildWeek5_BE.Migrations
                         new
                         {
                             CassettoId = 2,
-                            ArmadiettoId = 2
+                            ArmadiettoId = 1
                         },
                         new
                         {
                             CassettoId = 3,
+                            ArmadiettoId = 1
+                        },
+                        new
+                        {
+                            CassettoId = 4,
+                            ArmadiettoId = 1
+                        },
+                        new
+                        {
+                            CassettoId = 5,
+                            ArmadiettoId = 1
+                        },
+                        new
+                        {
+                            CassettoId = 6,
+                            ArmadiettoId = 2
+                        },
+                        new
+                        {
+                            CassettoId = 7,
+                            ArmadiettoId = 2
+                        },
+                        new
+                        {
+                            CassettoId = 8,
+                            ArmadiettoId = 2
+                        },
+                        new
+                        {
+                            CassettoId = 9,
+                            ArmadiettoId = 2
+                        },
+                        new
+                        {
+                            CassettoId = 10,
+                            ArmadiettoId = 2
+                        },
+                        new
+                        {
+                            CassettoId = 11,
+                            ArmadiettoId = 3
+                        },
+                        new
+                        {
+                            CassettoId = 12,
+                            ArmadiettoId = 3
+                        },
+                        new
+                        {
+                            CassettoId = 13,
+                            ArmadiettoId = 3
+                        },
+                        new
+                        {
+                            CassettoId = 14,
+                            ArmadiettoId = 3
+                        },
+                        new
+                        {
+                            CassettoId = 15,
                             ArmadiettoId = 3
                         });
                 });
@@ -391,60 +509,6 @@ namespace BuildWeek5_BE.Migrations
                     b.ToTable("Vendite");
                 });
 
-            modelBuilder.Entity("BuildWeek5_BE.Models.Puppy", b =>
-                {
-                    b.Property<int>("PuppyId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PuppyId"));
-
-                    b.Property<string>("ColoreMantello")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateOnly>("DataNascita")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly>("DataRegistrazione")
-                        .HasColumnType("date");
-
-                    b.Property<bool>("MicrochipPresente")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("NumeroMicrochip")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("Tipologia")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("PuppyId");
-
-                    b.HasIndex("NumeroMicrochip")
-                        .IsUnique()
-                        .HasFilter("[NumeroMicrochip] IS NOT NULL");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("Nome", "UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
-                    b.ToTable("Puppies");
-                });
-
             modelBuilder.Entity("BuildWeek5_BE.Models.Ricovero", b =>
                 {
                     b.Property<int>("RicoveroId")
@@ -452,9 +516,6 @@ namespace BuildWeek5_BE.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RicoveroId"));
-
-                    b.Property<DateOnly?>("DataFineRicovero")
-                        .HasColumnType("date");
 
                     b.Property<DateOnly>("DataInizioRicovero")
                         .HasColumnType("date");
@@ -595,6 +656,15 @@ namespace BuildWeek5_BE.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("BuildWeek5_BE.Models.Animale", b =>
+                {
+                    b.HasOne("BuildWeek5_BE.Models.Auth.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("BuildWeek5_BE.Models.Auth.ApplicationUserRole", b =>
                 {
                     b.HasOne("BuildWeek5_BE.Models.Auth.ApplicationRole", "Role")
@@ -682,18 +752,9 @@ namespace BuildWeek5_BE.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BuildWeek5_BE.Models.Puppy", b =>
-                {
-                    b.HasOne("BuildWeek5_BE.Models.Auth.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("BuildWeek5_BE.Models.Ricovero", b =>
                 {
-                    b.HasOne("BuildWeek5_BE.Models.Puppy", "Puppy")
+                    b.HasOne("BuildWeek5_BE.Models.Animale", "Puppy")
                         .WithMany("Ricoveri")
                         .HasForeignKey("PuppyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -704,13 +765,13 @@ namespace BuildWeek5_BE.Migrations
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Visita", b =>
                 {
-                    b.HasOne("BuildWeek5_BE.Models.Puppy", "Puppy")
+                    b.HasOne("BuildWeek5_BE.Models.Animale", "Animale")
                         .WithMany("Visite")
                         .HasForeignKey("PuppyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Puppy");
+                    b.Navigation("Animale");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -749,6 +810,13 @@ namespace BuildWeek5_BE.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("BuildWeek5_BE.Models.Animale", b =>
+                {
+                    b.Navigation("Ricoveri");
+
+                    b.Navigation("Visite");
+                });
+
             modelBuilder.Entity("BuildWeek5_BE.Models.Auth.ApplicationRole", b =>
                 {
                     b.Navigation("ApplicationUserRoles");
@@ -779,13 +847,6 @@ namespace BuildWeek5_BE.Migrations
                     b.Navigation("Usi");
 
                     b.Navigation("vendite");
-                });
-
-            modelBuilder.Entity("BuildWeek5_BE.Models.Puppy", b =>
-                {
-                    b.Navigation("Ricoveri");
-
-                    b.Navigation("Visite");
                 });
 #pragma warning restore 612, 618
         }

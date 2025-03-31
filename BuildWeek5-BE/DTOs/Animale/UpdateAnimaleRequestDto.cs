@@ -1,20 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
-using BuildWeek5_BE.Models.Auth;
 
-namespace BuildWeek5_BE.Models
+namespace BuildWeek5_BE.DTOs.Puppy
 {
-    public class Puppy
+    public class UpdateAnimaleRequestDto
     {
-        [Key]
-        public int PuppyId { get; set; }
-
-        [Required]
-        [DataType(DataType.Date)]
-        public DateOnly DataRegistrazione { get; set; }
-
         [Required]
         [StringLength(50)]
         public required string Nome { get; set; }
@@ -37,14 +27,6 @@ namespace BuildWeek5_BE.Models
         [StringLength(15)]
         public string? NumeroMicrochip { get; set; }
 
-        [ForeignKey("User")]
         public string? UserId { get; set; }
-
-        public ApplicationUser? User { get; set; }
-
-        public ICollection<Visita>? Visite { get; set; }
-
-        public ICollection<Ricovero>? Ricoveri { get; set; }
     }
 }
-

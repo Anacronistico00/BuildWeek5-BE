@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BuildWeek5_BE.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
-namespace BuildWeek5_BE.Models
+namespace BuildWeek5_BE.DTOs.Visita
 {
-    public class Visita
+    public class GetVisitaDto
     {
         [Key]
         public int Id { get; set; }
@@ -14,7 +15,7 @@ namespace BuildWeek5_BE.Models
 
         [Required]
         [StringLength(50)]
-        public required string ObiettivoEsame {  get; set; }
+        public required string ObiettivoEsame { get; set; }
 
         [Required]
         [StringLength(255)]

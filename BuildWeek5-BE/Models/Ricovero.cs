@@ -11,7 +11,7 @@ namespace BuildWeek5_BE.Models
         [ForeignKey(nameof(Puppy))]
         public int PuppyId { get; set; }
 
-        public Puppy Puppy { get; set; }
+        public Animale Puppy { get; set; }
 
         [Required]
         public DateOnly DataInizioRicovero { get; set; }

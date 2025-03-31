@@ -1,28 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BuildWeek5_BE.Models
+namespace BuildWeek5_BE.DTOs.Visita
 {
-    public class Visita
+    public class UpdateVisitaRequestDto
     {
-        [Key]
-        public int Id { get; set; }
-
         [Required]
         [DataType(DataType.Date)]
         public DateTime DataVisita { get; set; }
 
         [Required]
         [StringLength(50)]
-        public required string ObiettivoEsame {  get; set; }
+        public required string ObiettivoEsame { get; set; }
 
         [Required]
         [StringLength(255)]
         public required string DescrizioneCura { get; set; }
 
-        [ForeignKey(nameof(Animale))]
         public int PuppyId { get; set; }
-
-        public Animale Animale { get; set; }
     }
 }
