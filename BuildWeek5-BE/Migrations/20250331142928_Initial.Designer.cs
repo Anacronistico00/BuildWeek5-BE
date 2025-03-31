@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuildWeek5_BE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250331132148_initial")]
-    partial class initial
+    [Migration("20250331142928_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -108,15 +108,15 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5a1efe9d-0a2a-447a-96e3-984cf4a6b5b9",
-                            ConcurrencyStamp = "5a1efe9d-0a2a-447a-96e3-984cf4a6b5b9",
+                            Id = "31f69461-09ae-466f-bd53-8b413ae04e62",
+                            ConcurrencyStamp = "31f69461-09ae-466f-bd53-8b413ae04e62",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "e723363a-2340-4ebc-bfdd-2d0aa9d98951",
-                            ConcurrencyStamp = "e723363a-2340-4ebc-bfdd-2d0aa9d98951",
+                            Id = "2e65223a-a507-4825-aebe-bd4ddc60b21b",
+                            ConcurrencyStamp = "2e65223a-a507-4825-aebe-bd4ddc60b21b",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -515,6 +515,9 @@ namespace BuildWeek5_BE.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RicoveroId"));
+
+                    b.Property<DateOnly?>("DataFineRicovero")
+                        .HasColumnType("date");
 
                     b.Property<DateOnly>("DataInizioRicovero")
                         .HasColumnType("date");

@@ -16,6 +16,5 @@ namespace BuildWeek5_BE.DTOs.Visita
         [StringLength(255)]
         public required string DescrizioneCura { get; set; }
 
-        public int PuppyId { get; set; }
     }
 }

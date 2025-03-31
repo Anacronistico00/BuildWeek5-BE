@@ -3,6 +3,7 @@ using BuildWeek5_BE.DTOs.Visita;
 using BuildWeek5_BE.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BuildWeek5_BE.Controllers
@@ -64,21 +65,12 @@ namespace BuildWeek5_BE.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVisita(int id, [FromBody] AddVisitaRequestDto visitaDto)
+        public async Task<IActionResult> UpdateVisita(int id, [FromBody] UpdateVisitaRequestDto visitaDto)
         {
-            try
-            {
-                var updatedVisita = await _visitaService.UpdateVisitaAsync(id, visitaDto);
-                if (updatedVisita == null)
-                    return NotFound("Visita non trovata");
+            var result = await _visitaService.UpdateVisitaAsync(id, visitaDto);
 
-                return Ok(updatedVisita);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Errore durante l'aggiornamento della visita");
-                return StatusCode(500, "Si è verificato un errore interno");
-            }
+            return result ? Ok(new { Message = "Visita modificata correttamente!" })
+                                     : BadRequest(new { Message = "Errore durante la modifica!" });
         }
 
         [HttpDelete("{id}")]

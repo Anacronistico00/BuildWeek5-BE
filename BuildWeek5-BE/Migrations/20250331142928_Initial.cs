@@ -276,7 +276,8 @@ namespace BuildWeek5_BE.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PuppyId = table.Column<int>(type: "int", nullable: false),
                     DataInizioRicovero = table.Column<DateOnly>(type: "date", nullable: false),
-                    Descrizione = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Descrizione = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DataFineRicovero = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -373,8 +374,8 @@ namespace BuildWeek5_BE.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "36e5b3bf-b5df-4db7-9b8b-feedf964973b", "36e5b3bf-b5df-4db7-9b8b-feedf964973b", "Admin", "ADMIN" },
-                    { "8ac1ad80-30a0-4f37-903f-db2c48f078e1", "8ac1ad80-30a0-4f37-903f-db2c48f078e1", "User", "USER" }
+                    { "2e65223a-a507-4825-aebe-bd4ddc60b21b", "2e65223a-a507-4825-aebe-bd4ddc60b21b", "User", "USER" },
+                    { "31f69461-09ae-466f-bd53-8b413ae04e62", "31f69461-09ae-466f-bd53-8b413ae04e62", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
