@@ -114,6 +114,7 @@ try
     );
 
     builder.Services.AddScoped<AnimaleService>();
+    builder.Services.AddScoped<VisitaService>();
 
     builder.Host.UseSerilog();
 
