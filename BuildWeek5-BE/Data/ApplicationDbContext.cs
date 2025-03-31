@@ -38,7 +38,7 @@ namespace BuildWeek5_BE.Data
             modelBuilder.Entity<ApplicationUserRole>().HasOne(p => p.User).WithMany(p => p.ApplicationUserRoles).HasForeignKey(p => p.UserId).IsRequired(true);
             modelBuilder.Entity<ApplicationUserRole>().HasOne(p => p.Role).WithMany(p => p.ApplicationUserRoles).HasForeignKey(p => p.RoleId).IsRequired(true);
 
-            modelBuilder.Entity<Animale>().HasMany(a => a.Visite).WithOne(p => p.Puppy).HasForeignKey("PuppyId");
+            modelBuilder.Entity<Animale>().HasMany(a => a.Visite).WithOne(p => p.Animale).HasForeignKey("PuppyId");
             modelBuilder.Entity<Animale>().HasMany(r => r.Ricoveri).WithOne(p => p.Puppy).HasForeignKey("PuppyId");
             modelBuilder.Entity<Animale>().HasIndex(u => u.NumeroMicrochip).IsUnique();
             modelBuilder.Entity<Animale>().HasIndex(u => new { u.Nome, u.UserId }).IsUnique();
@@ -85,16 +85,16 @@ namespace BuildWeek5_BE.Data
                 new Cassetto { CassettoId = 3, ArmadiettoId = 1 },
                 new Cassetto { CassettoId = 4, ArmadiettoId = 1 },
                 new Cassetto { CassettoId = 5, ArmadiettoId = 1 },
-                new Cassetto { CassettoId = 1, ArmadiettoId = 2 },
-                new Cassetto { CassettoId = 2, ArmadiettoId = 2 },
-                new Cassetto { CassettoId = 3, ArmadiettoId = 2 },
-                new Cassetto { CassettoId = 4, ArmadiettoId = 2 },
-                new Cassetto { CassettoId = 5, ArmadiettoId = 2 },
-                new Cassetto { CassettoId = 1, ArmadiettoId = 3 },
-                new Cassetto { CassettoId = 2, ArmadiettoId = 3 },
-                new Cassetto { CassettoId = 3, ArmadiettoId = 3 },
-                new Cassetto { CassettoId = 4, ArmadiettoId = 3 },
-                new Cassetto { CassettoId = 5, ArmadiettoId = 3 }
+                new Cassetto { CassettoId = 6, ArmadiettoId = 2 },
+                new Cassetto { CassettoId = 7, ArmadiettoId = 2 },
+                new Cassetto { CassettoId = 8, ArmadiettoId = 2 },
+                new Cassetto { CassettoId = 9, ArmadiettoId = 2 },
+                new Cassetto { CassettoId = 10, ArmadiettoId = 2 },
+                new Cassetto { CassettoId = 11, ArmadiettoId = 3 },
+                new Cassetto { CassettoId = 12, ArmadiettoId = 3 },
+                new Cassetto { CassettoId = 13, ArmadiettoId = 3 },
+                new Cassetto { CassettoId = 14, ArmadiettoId = 3 },
+                new Cassetto { CassettoId = 15, ArmadiettoId = 3 }
             );
 
             modelBuilder.Entity<Fornitore>().HasData(

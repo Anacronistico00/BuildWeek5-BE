@@ -242,11 +242,18 @@ namespace BuildWeek5_BE.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     FornitoreId = table.Column<int>(type: "int", nullable: false),
-                    CassettoId = table.Column<int>(type: "int", nullable: false)
+                    CassettoId = table.Column<int>(type: "int", nullable: false),
+                    ArmadiettoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Prodotti", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Prodotti_Armadietti_ArmadiettoId",
+                        column: x => x.ArmadiettoId,
+                        principalTable: "Armadietti",
+                        principalColumn: "ArmadiettoId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Prodotti_Cassetti_CassettoId",
                         column: x => x.CassettoId,
@@ -366,8 +373,8 @@ namespace BuildWeek5_BE.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "338b798d-014a-484c-8b9f-92cee680985c", "338b798d-014a-484c-8b9f-92cee680985c", "User", "USER" },
-                    { "c29f332f-09e8-431a-956f-b98c36e35218", "c29f332f-09e8-431a-956f-b98c36e35218", "Admin", "ADMIN" }
+                    { "36e5b3bf-b5df-4db7-9b8b-feedf964973b", "36e5b3bf-b5df-4db7-9b8b-feedf964973b", "Admin", "ADMIN" },
+                    { "8ac1ad80-30a0-4f37-903f-db2c48f078e1", "8ac1ad80-30a0-4f37-903f-db2c48f078e1", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -386,18 +393,30 @@ namespace BuildWeek5_BE.Migrations
                 values: new object[,]
                 {
                     { 1, 1 },
-                    { 2, 2 },
-                    { 3, 3 }
+                    { 2, 1 },
+                    { 3, 1 },
+                    { 4, 1 },
+                    { 5, 1 },
+                    { 6, 2 },
+                    { 7, 2 },
+                    { 8, 2 },
+                    { 9, 2 },
+                    { 10, 2 },
+                    { 11, 3 },
+                    { 12, 3 },
+                    { 13, 3 },
+                    { 14, 3 },
+                    { 15, 3 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Prodotti",
-                columns: new[] { "Id", "CassettoId", "FornitoreId", "Nome" },
+                columns: new[] { "Id", "ArmadiettoId", "CassettoId", "FornitoreId", "Nome" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, "Antibiotico X" },
-                    { 2, 2, 2, "Antiparassitario Y" },
-                    { 3, 3, 3, "Integratore Z" }
+                    { 1, 1, 1, 1, "Antibiotico X" },
+                    { 2, 2, 2, 2, "Antiparassitario Y" },
+                    { 3, 3, 3, 3, "Integratore Z" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -442,6 +461,11 @@ namespace BuildWeek5_BE.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Cassetti_ArmadiettoId",
                 table: "Cassetti",
+                column: "ArmadiettoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Prodotti_ArmadiettoId",
+                table: "Prodotti",
                 column: "ArmadiettoId");
 
             migrationBuilder.CreateIndex(
