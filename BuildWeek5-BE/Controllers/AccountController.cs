@@ -33,10 +33,16 @@ namespace BuildWeek5_BE.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerRequestDto)
         {
-
             if (User.Identity.IsAuthenticated)
             {
                 return BadRequest(new { message = "Sei già loggato. Non puoi registrarti di nuovo." });
+            }
+
+            // Verifica se l'email è già registrata
+            var existingUser = await _userManager.FindByEmailAsync(registerRequestDto.Email);
+            if (existingUser != null)
+            {
+                return BadRequest(new { message = "Email già registrata" });
             }
 
             var newUser = new ApplicationUser()
@@ -50,14 +56,12 @@ namespace BuildWeek5_BE.Controllers
             };
 
             var result = await _userManager.CreateAsync(newUser, registerRequestDto.Password);
-
             if (!result.Succeeded)
             {
                 return BadRequest();
             }
 
             var adminUsers = await _userManager.GetUsersInRoleAsync("Admin");
-
             if (adminUsers.Count < 3)
             {
                 await _userManager.AddToRoleAsync(newUser, "Admin");
@@ -69,6 +73,7 @@ namespace BuildWeek5_BE.Controllers
 
             return Ok();
         }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestDto loginRequestDto)

@@ -1,5 +1,6 @@
 ﻿using BuildWeek5_BE.Models.Auth;
 using BuildWeek5_BE.Models.Farmacia;
+using BuildWeek5_BE.DTOs.Farmacia.Fornitore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 

@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace BuildWeek5_BE.DTOs.Farmacia
+namespace BuildWeek5_BE.DTOs.Farmacia.Fornitore
 {
     public class FornitoreDto
     {
@@ -17,5 +18,8 @@ namespace BuildWeek5_BE.DTOs.Farmacia
         [Required]
         [StringLength(200)]
         public string Indirizzo { get; set; }
+
     }
+
+
 }
