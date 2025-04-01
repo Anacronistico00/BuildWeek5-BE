@@ -1,24 +1,25 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BuildWeek5_BE.DTOs.Farmacia.Fornitore
 {
     public class FornitoreDto
     {
         public int Id { get; set; }
+
+        [Required]
+        [StringLength(100)]
         public string Nome { get; set; }
+
+        [Required]
+        [StringLength(100)]
         public string Recapito { get; set; }
+
+        [Required]
+        [StringLength(200)]
         public string Indirizzo { get; set; }
 
-        // Opzionale: includi i prodotti associati
-        public ICollection<ProdottoSempliceDto> Prodotti { get; set; }
     }
 
-    // DTO semplificato per i prodotti quando vengono inclusi nel fornitore
-    public class ProdottoSempliceDto
-    {
-        public int Id { get; set; }
-        public string Nome { get; set; }
-        public string Descrizione { get; set; }
-        public decimal Prezzo { get; set; }
-    }
+
 }

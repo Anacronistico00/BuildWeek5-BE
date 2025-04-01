@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BuildWeek5_BE.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDataVenditaToVendita : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -390,6 +390,7 @@ namespace BuildWeek5_BE.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RicettaMedica = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProdottoId = table.Column<int>(type: "int", nullable: false),
                     NumeroRicettaMedica = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DataVendita = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -426,8 +427,8 @@ namespace BuildWeek5_BE.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0a9b15cc-6dc8-451d-a73e-b326000a24d1", "0a9b15cc-6dc8-451d-a73e-b326000a24d1", "Admin", "ADMIN" },
-                    { "4fe8c539-b6c0-4643-812f-5b20848ccdc5", "4fe8c539-b6c0-4643-812f-5b20848ccdc5", "User", "USER" }
+                    { "192fc64f-4e01-47cc-95c1-2749ccd1ac31", "192fc64f-4e01-47cc-95c1-2749ccd1ac31", "Admin", "ADMIN" },
+                    { "8b5b3007-4a66-41bf-bcee-7b5ac245fe08", "8b5b3007-4a66-41bf-bcee-7b5ac245fe08", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(

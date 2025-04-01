@@ -38,6 +38,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                         NomeProdotto = v.Prodotto.Nome,
                         PrezzoProdotto = 0, //prezzo non disponibile
                         NumeroRicettaMedica = v.NumeroRicettaMedica,
+                        RicettaMedica = v.RicettaMedica,
                         DataVendita = v.DataVendita
 
                     })
@@ -73,6 +74,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                     NomeProdotto = vendita.Prodotto.Nome,
                     PrezzoProdotto = 0, //prezzo non disponibile
                     NumeroRicettaMedica = vendita.NumeroRicettaMedica,
+                    RicettaMedica = vendita.RicettaMedica,
                     DataVendita = vendita.DataVendita
 
                 };
@@ -84,14 +86,22 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
             }
         }
 
-        public async Task<List<VenditaDto>> GetVenditeByUserIdAsync(string userId)
+        public async Task<List<VenditaDto>> GetVenditeByFiscalCodeAsync(string FiscalCode)
         {
             try
             {
-                return await _context.Vendite
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.FiscalCode == FiscalCode);
+
+                if (user == null)
+                {
+                    throw new KeyNotFoundException($"Utente con codice fiscale {FiscalCode} non trovato");
+                }
+
+                var vendite = await _context.Vendite
                     .Include(v => v.User)
                     .Include(v => v.Prodotto)
-                    .Where(v => v.UserId == userId)
+                    .Where(v => v.UserId == user.Id)
                     .Select(v => new VenditaDto
                     {
                         Id = v.Id,
@@ -99,19 +109,55 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                         UserName = $"{v.User.FirstName} {v.User.LastName}",
                         ProdottoId = v.ProdottoId,
                         NomeProdotto = v.Prodotto.Nome,
-                        PrezzoProdotto = 0, //prezzo non disponibile
                         NumeroRicettaMedica = v.NumeroRicettaMedica,
+                        RicettaMedica = v.RicettaMedica,
                         DataVendita = v.DataVendita
-
                     })
                     .ToListAsync();
+
+                return vendite;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante il recupero delle vendite per l'utente con ID {userId}");
+                _logger.LogError(ex, $"Errore durante il recupero delle vendite per l'utente con codice fiscale {FiscalCode}");
                 throw;
             }
         }
+
+
+        public async Task<VenditaDto> GetVenditaByNumeroRicettaAsync(string numeroRicetta)
+        {
+            try
+            {
+                var vendita = await _context.Vendite
+                    .Include(v => v.User)
+                    .Include(v => v.Prodotto)
+                    .FirstOrDefaultAsync(v => v.NumeroRicettaMedica == numeroRicetta);
+
+                if (vendita == null)
+                {
+                    return null;
+                }
+
+                return new VenditaDto
+                {
+                    Id = vendita.Id,
+                    UserId = vendita.UserId,
+                    UserName = $"{vendita.User.FirstName} {vendita.User.LastName}",
+                    ProdottoId = vendita.ProdottoId,
+                    NomeProdotto = vendita.Prodotto.Nome,
+                    NumeroRicettaMedica = vendita.NumeroRicettaMedica,
+                    DataVendita = vendita.DataVendita
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Errore durante il recupero della vendita con numero ricetta '{numeroRicetta}'");
+                throw;
+            }
+        }
+
+
 
         public async Task<List<VenditaDto>> GetVenditeByProdottoIdAsync(int prodottoId)
         {
@@ -130,6 +176,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                         NomeProdotto = v.Prodotto.Nome,
                         PrezzoProdotto = 0, //prezzo non disponibile
                         NumeroRicettaMedica = v.NumeroRicettaMedica,
+                        RicettaMedica = v.RicettaMedica,
                         DataVendita = v.DataVendita
                     })
                     .ToListAsync();
@@ -165,6 +212,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                 {
                     ProdottoId = createVenditaDto.ProdottoId,
                     UserId = userId,
+                    RicettaMedica = createVenditaDto.RicettaMedica,
                     NumeroRicettaMedica = createVenditaDto.NumeroRicettaMedica,
                     DataVendita = DateTime.Now
                 };
@@ -185,6 +233,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                     NomeProdotto = vendita.Prodotto.Nome,
                     PrezzoProdotto = 0, // prezzo non disponibile
                     NumeroRicettaMedica = vendita.NumeroRicettaMedica,
+                    RicettaMedica = vendita.RicettaMedica,
                     DataVendita = vendita.DataVendita
                 };
             }
@@ -211,8 +260,8 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                     throw new KeyNotFoundException($"Vendita con ID {id} non trovata");
                 }
 
-                // Aggiorna solo numero della ricetta medica
-                vendita.NumeroRicettaMedica = updateVenditaDto.NumeroRicettaMedica;
+                // Aggiorna solo ricetta medica
+                vendita.RicettaMedica = updateVenditaDto.RicettaMedica;
 
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
@@ -226,6 +275,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                     NomeProdotto = vendita.Prodotto.Nome,
                     PrezzoProdotto = 0, //prezzo non disponibile
                     NumeroRicettaMedica = vendita.NumeroRicettaMedica,
+                    RicettaMedica = vendita.RicettaMedica,
                     DataVendita = vendita.DataVendita
                 };
             }

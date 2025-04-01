@@ -120,15 +120,15 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0a9b15cc-6dc8-451d-a73e-b326000a24d1",
-                            ConcurrencyStamp = "0a9b15cc-6dc8-451d-a73e-b326000a24d1",
+                            Id = "192fc64f-4e01-47cc-95c1-2749ccd1ac31",
+                            ConcurrencyStamp = "192fc64f-4e01-47cc-95c1-2749ccd1ac31",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "4fe8c539-b6c0-4643-812f-5b20848ccdc5",
-                            ConcurrencyStamp = "4fe8c539-b6c0-4643-812f-5b20848ccdc5",
+                            Id = "8b5b3007-4a66-41bf-bcee-7b5ac245fe08",
+                            ConcurrencyStamp = "8b5b3007-4a66-41bf-bcee-7b5ac245fe08",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -536,6 +536,10 @@ namespace BuildWeek5_BE.Migrations
 
                     b.Property<int>("ProdottoId")
                         .HasColumnType("int");
+
+                    b.Property<string>("RicettaMedica")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()

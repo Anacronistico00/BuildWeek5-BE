@@ -1,6 +1,7 @@
 using BuildWeek5_BE.Data;
 using BuildWeek5_BE.Models.Auth;
 using BuildWeek5_BE.Services;
+using BuildWeek5_BE.Services.Farmacia;
 using BuildWeek5_BE.Services.Farmacia.Vendita;
 using BuildWeek5_BE.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -120,6 +121,8 @@ try
     builder.Services.AddScoped<VisitaService>();
     builder.Services.AddScoped<RicoveroService>();
     builder.Services.AddScoped<VenditaService>();
+    builder.Services.AddScoped<FornitoreService>();
+
 
 
 
