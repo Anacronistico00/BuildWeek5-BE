@@ -25,10 +25,8 @@ namespace BuildWeek5_BE.Data
         public DbSet<Prodotto> Prodotti { get; set; }
         public DbSet<Cassetto> Cassetti { get; set; }
         public DbSet<Armadietto> Armadietti { get; set; }
-        public DbSet<Vendita> Vendite { get; set; }
+        public DbSet<UtenteProdotto> UtentiProdotti { get; set; }
         public DbSet<Fornitore> Fornitori { get; set; }
-        public DbSet<UsoProdotto> UsiProdotti { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,10 +46,6 @@ namespace BuildWeek5_BE.Data
             modelBuilder.Entity<Prodotto>().HasOne(p => p.Fornitore).WithMany(p => p.Prodotti).HasForeignKey(p => p.FornitoreId).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Cassetto>().HasOne(c => c.Armadietto).WithMany(a => a.Cassetti).HasForeignKey(c => c.ArmadiettoId);
-
-            modelBuilder.Entity<Vendita>().HasOne(v => v.Prodotto).WithMany(v => v.vendite).HasForeignKey(v => v.ProdottoId).OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<UsoProdotto>().HasOne(u => u.Prodotto).WithMany(p => p.Usi).HasForeignKey(u => u.ProdottoId);
 
             modelBuilder.Entity<UtenteProdotto>().HasKey(up => new { up.utenteId, up.prodottoId });
             modelBuilder.Entity<UtenteProdotto>().HasOne(p => p.Prodotto).WithMany(p => p.UtenteProdotto).HasForeignKey(p => p.prodottoId);
@@ -108,9 +102,9 @@ namespace BuildWeek5_BE.Data
            );
 
             modelBuilder.Entity<Prodotto>().HasData(
-                new Prodotto { Id = 1, Nome = "Antibiotico X", FornitoreId = 1, CassettoId = 1, ArmadiettoId = 1 },
-                new Prodotto { Id = 2, Nome = "Antiparassitario Y", FornitoreId = 2, CassettoId = 2, ArmadiettoId = 2 },
-                new Prodotto { Id = 3, Nome = "Integratore Z", FornitoreId = 3, CassettoId = 3, ArmadiettoId = 3 }
+                new Prodotto { Id = 1, Nome = "Antibiotico X", FornitoreId = 1, UsiProdotto = "Antibiotico per la cura di infezioni dovute ai parassiti", CassettoId = 1, ArmadiettoId = 1 },
+                new Prodotto { Id = 2, Nome = "Antiparassitario Y", FornitoreId = 2, UsiProdotto = "Protegge da pulci, zecche e pappataci", CassettoId = 2, ArmadiettoId = 2 },
+                new Prodotto { Id = 3, Nome = "Integratore Z", FornitoreId = 3, UsiProdotto = "Stimola la circolazione e aiuta a integrare le vitamine e minerali mancanti", CassettoId = 3, ArmadiettoId = 3 }
             );
         }
     }

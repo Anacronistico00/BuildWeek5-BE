@@ -241,8 +241,8 @@ namespace BuildWeek5_BE.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    DataDiAcquisto = table.Column<DateOnly>(type: "date", nullable: false),
                     FornitoreId = table.Column<int>(type: "int", nullable: false),
+                    UsiProdotto = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CassettoId = table.Column<int>(type: "int", nullable: false),
                     ArmadiettoId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -339,75 +339,29 @@ namespace BuildWeek5_BE.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UsiProdotti",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Descrizione = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ProdottoId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UsiProdotti", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UsiProdotti_Prodotti_ProdottoId",
-                        column: x => x.ProdottoId,
-                        principalTable: "Prodotti",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UtenteProdotto",
+                name: "UtentiProdotti",
                 columns: table => new
                 {
                     prodottoId = table.Column<int>(type: "int", nullable: false),
                     utenteId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DataAcquisto = table.Column<DateOnly>(type: "date", nullable: false)
+                    DataAcquisto = table.Column<DateOnly>(type: "date", nullable: false),
+                    NumeroRicettaMedica = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UtenteProdotto", x => new { x.utenteId, x.prodottoId });
+                    table.PrimaryKey("PK_UtentiProdotti", x => new { x.utenteId, x.prodottoId });
                     table.ForeignKey(
-                        name: "FK_UtenteProdotto_AspNetUsers_utenteId",
+                        name: "FK_UtentiProdotti_AspNetUsers_utenteId",
                         column: x => x.utenteId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UtenteProdotto_Prodotti_prodottoId",
+                        name: "FK_UtentiProdotti_Prodotti_prodottoId",
                         column: x => x.prodottoId,
                         principalTable: "Prodotti",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Vendite",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProdottoId = table.Column<int>(type: "int", nullable: false),
-                    NumeroRicettaMedica = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vendite", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Vendite_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Vendite_Prodotti_ProdottoId",
-                        column: x => x.ProdottoId,
-                        principalTable: "Prodotti",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -425,8 +379,8 @@ namespace BuildWeek5_BE.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "32b6f7cf-1cbf-4dcc-a310-dfd8172088e8", "32b6f7cf-1cbf-4dcc-a310-dfd8172088e8", "Admin", "ADMIN" },
-                    { "84682a31-a5a1-4830-978b-954344012e12", "84682a31-a5a1-4830-978b-954344012e12", "User", "USER" }
+                    { "0d80f51f-40ea-4b0c-bf73-37a31008209c", "0d80f51f-40ea-4b0c-bf73-37a31008209c", "User", "USER" },
+                    { "118466fb-1b61-48cd-a0cc-e0820c6d722e", "118466fb-1b61-48cd-a0cc-e0820c6d722e", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -463,12 +417,12 @@ namespace BuildWeek5_BE.Migrations
 
             migrationBuilder.InsertData(
                 table: "Prodotti",
-                columns: new[] { "Id", "ArmadiettoId", "CassettoId", "DataDiAcquisto", "FornitoreId", "Nome", "UserId" },
+                columns: new[] { "Id", "ArmadiettoId", "CassettoId", "FornitoreId", "Nome", "UserId", "UsiProdotto" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, new DateOnly(2025, 4, 1), 1, "Antibiotico X", null },
-                    { 2, 2, 2, new DateOnly(2025, 4, 1), 2, "Antiparassitario Y", null },
-                    { 3, 3, 3, new DateOnly(2025, 4, 1), 3, "Integratore Z", null }
+                    { 1, 1, 1, 1, "Antibiotico X", null, "Antibiotico per la cura di infezioni dovute ai parassiti" },
+                    { 2, 2, 2, 2, "Antiparassitario Y", null, "Protegge da pulci, zecche e pappataci" },
+                    { 3, 3, 3, 3, "Integratore Z", null, "Stimola la circolazione e aiuta a integrare le vitamine e minerali mancanti" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -566,24 +520,9 @@ namespace BuildWeek5_BE.Migrations
                 column: "PuppyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UsiProdotti_ProdottoId",
-                table: "UsiProdotti",
-                column: "ProdottoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UtenteProdotto_prodottoId",
-                table: "UtenteProdotto",
+                name: "IX_UtentiProdotti_prodottoId",
+                table: "UtentiProdotti",
                 column: "prodottoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Vendite_ProdottoId",
-                table: "Vendite",
-                column: "ProdottoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Vendite_UserId",
-                table: "Vendite",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Visite_PuppyId",
@@ -616,13 +555,7 @@ namespace BuildWeek5_BE.Migrations
                 name: "Ricoveri");
 
             migrationBuilder.DropTable(
-                name: "UsiProdotti");
-
-            migrationBuilder.DropTable(
-                name: "UtenteProdotto");
-
-            migrationBuilder.DropTable(
-                name: "Vendite");
+                name: "UtentiProdotti");
 
             migrationBuilder.DropTable(
                 name: "Visite");

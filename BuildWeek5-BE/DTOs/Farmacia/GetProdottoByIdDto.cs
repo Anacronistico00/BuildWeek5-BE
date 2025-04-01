@@ -1,11 +1,9 @@
-﻿using BuildWeek5_BE.Models.Auth;
-using BuildWeek5_BE.Models.Farmacia;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using BuildWeek5_BE.Models.Farmacia;
 using System.ComponentModel.DataAnnotations;
 
 namespace BuildWeek5_BE.DTOs.Farmacia
 {
-    public class GetProdottoDto
+    public class GetProdottoByIdDto
     {
         public int Id { get; set; }
         [Required]
@@ -18,5 +16,7 @@ namespace BuildWeek5_BE.DTOs.Farmacia
         public required string UsiProdotto { get; set; }
 
         public CassettoDto? Cassetto { get; set; }
+
+        public List<UtenteProdottoDto>? vendite { get; set; }
     }
 }

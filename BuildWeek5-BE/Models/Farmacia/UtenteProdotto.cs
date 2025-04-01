@@ -9,7 +9,8 @@ namespace BuildWeek5_BE.Models.Farmacia
 
         public string utenteId { get; set; }
 
-        public DateOnly DataAcquisto { get; set; }
+        public DateOnly DataAcquisto { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+        public string? NumeroRicettaMedica { get; set; }
 
         [ForeignKey(nameof(prodottoId))]
         public Prodotto Prodotto { get; set; }

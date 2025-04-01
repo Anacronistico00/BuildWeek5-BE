@@ -1,11 +1,8 @@
-﻿using BuildWeek5_BE.Models.Auth;
-using BuildWeek5_BE.Models.Farmacia;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BuildWeek5_BE.DTOs.Farmacia
 {
-    public class AddProdottoRequestDto
+    public class UpdateProdottoRequestDto
     {
         [Required]
         [StringLength(100)]
@@ -22,6 +19,5 @@ namespace BuildWeek5_BE.DTOs.Farmacia
 
         [Required]
         public int ArmadiettoId { get; set; }
-
     }
 }

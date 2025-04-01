@@ -120,15 +120,15 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "32b6f7cf-1cbf-4dcc-a310-dfd8172088e8",
-                            ConcurrencyStamp = "32b6f7cf-1cbf-4dcc-a310-dfd8172088e8",
+                            Id = "118466fb-1b61-48cd-a0cc-e0820c6d722e",
+                            ConcurrencyStamp = "118466fb-1b61-48cd-a0cc-e0820c6d722e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "84682a31-a5a1-4830-978b-954344012e12",
-                            ConcurrencyStamp = "84682a31-a5a1-4830-978b-954344012e12",
+                            Id = "0d80f51f-40ea-4b0c-bf73-37a31008209c",
+                            ConcurrencyStamp = "0d80f51f-40ea-4b0c-bf73-37a31008209c",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -422,9 +422,6 @@ namespace BuildWeek5_BE.Migrations
                     b.Property<int>("CassettoId")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("DataDiAcquisto")
-                        .HasColumnType("date");
-
                     b.Property<int>("FornitoreId")
                         .HasColumnType("int");
 
@@ -434,6 +431,10 @@ namespace BuildWeek5_BE.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UsiProdotto")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -455,51 +456,28 @@ namespace BuildWeek5_BE.Migrations
                             Id = 1,
                             ArmadiettoId = 1,
                             CassettoId = 1,
-                            DataDiAcquisto = new DateOnly(2025, 4, 1),
                             FornitoreId = 1,
-                            Nome = "Antibiotico X"
+                            Nome = "Antibiotico X",
+                            UsiProdotto = "Antibiotico per la cura di infezioni dovute ai parassiti"
                         },
                         new
                         {
                             Id = 2,
                             ArmadiettoId = 2,
                             CassettoId = 2,
-                            DataDiAcquisto = new DateOnly(2025, 4, 1),
                             FornitoreId = 2,
-                            Nome = "Antiparassitario Y"
+                            Nome = "Antiparassitario Y",
+                            UsiProdotto = "Protegge da pulci, zecche e pappataci"
                         },
                         new
                         {
                             Id = 3,
                             ArmadiettoId = 3,
                             CassettoId = 3,
-                            DataDiAcquisto = new DateOnly(2025, 4, 1),
                             FornitoreId = 3,
-                            Nome = "Integratore Z"
+                            Nome = "Integratore Z",
+                            UsiProdotto = "Stimola la circolazione e aiuta a integrare le vitamine e minerali mancanti"
                         });
-                });
-
-            modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.UsoProdotto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Descrizione")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("ProdottoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProdottoId");
-
-                    b.ToTable("UsiProdotti");
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.UtenteProdotto", b =>
@@ -513,38 +491,14 @@ namespace BuildWeek5_BE.Migrations
                     b.Property<DateOnly>("DataAcquisto")
                         .HasColumnType("date");
 
+                    b.Property<string>("NumeroRicettaMedica")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("utenteId", "prodottoId");
 
                     b.HasIndex("prodottoId");
 
-                    b.ToTable("UtenteProdotto");
-                });
-
-            modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Vendita", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("NumeroRicettaMedica")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProdottoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProdottoId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Vendite");
+                    b.ToTable("UtentiProdotti");
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Ricovero", b =>
@@ -778,17 +732,6 @@ namespace BuildWeek5_BE.Migrations
                     b.Navigation("Fornitore");
                 });
 
-            modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.UsoProdotto", b =>
-                {
-                    b.HasOne("BuildWeek5_BE.Models.Farmacia.Prodotto", "Prodotto")
-                        .WithMany("Usi")
-                        .HasForeignKey("ProdottoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Prodotto");
-                });
-
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.UtenteProdotto", b =>
                 {
                     b.HasOne("BuildWeek5_BE.Models.Farmacia.Prodotto", "Prodotto")
@@ -806,25 +749,6 @@ namespace BuildWeek5_BE.Migrations
                     b.Navigation("Cliente");
 
                     b.Navigation("Prodotto");
-                });
-
-            modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Vendita", b =>
-                {
-                    b.HasOne("BuildWeek5_BE.Models.Farmacia.Prodotto", "Prodotto")
-                        .WithMany("vendite")
-                        .HasForeignKey("ProdottoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BuildWeek5_BE.Models.Auth.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Prodotto");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Ricovero", b =>
@@ -921,11 +845,7 @@ namespace BuildWeek5_BE.Migrations
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Prodotto", b =>
                 {
-                    b.Navigation("Usi");
-
                     b.Navigation("UtenteProdotto");
-
-                    b.Navigation("vendite");
                 });
 #pragma warning restore 612, 618
         }
