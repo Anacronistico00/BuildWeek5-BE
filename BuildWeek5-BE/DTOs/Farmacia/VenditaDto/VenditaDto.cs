@@ -18,5 +18,8 @@ namespace BuildWeek5_BE.DTOs.Farmacia
         public decimal PrezzoProdotto { get; set; }
 
         public string NumeroRicettaMedica { get; set; }
+
+        public DateTime DataVendita { get; set; }
+
     }
 }

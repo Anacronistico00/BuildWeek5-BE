@@ -1,6 +1,7 @@
 ﻿using BuildWeek5_BE.Data;
 using BuildWeek5_BE.DTOs.Farmacia;
 using BuildWeek5_BE.DTOs.Farmacia.Vendita;
+using BuildWeek5_BE.Models.Farmacia;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BuildWeek5_BE.Services.Farmacia.Vendita
 {
-    public class VenditaService : IVenditaService
+    public class VenditaService
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<VenditaService> _logger;
@@ -35,8 +36,10 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                         UserName = $"{v.User.FirstName} {v.User.LastName}",
                         ProdottoId = v.ProdottoId,
                         NomeProdotto = v.Prodotto.Nome,
-                        PrezzoProdotto = 0, // Assumendo che il prezzo non sia disponibile
-                        NumeroRicettaMedica = v.NumeroRicettaMedica
+                        PrezzoProdotto = 0, //prezzo non disponibile
+                        NumeroRicettaMedica = v.NumeroRicettaMedica,
+                        DataVendita = v.DataVendita
+
                     })
                     .ToListAsync();
             }
@@ -68,8 +71,10 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                     UserName = $"{vendita.User.FirstName} {vendita.User.LastName}",
                     ProdottoId = vendita.ProdottoId,
                     NomeProdotto = vendita.Prodotto.Nome,
-                    PrezzoProdotto = 0, // Assumendo che il prezzo non sia disponibile
-                    NumeroRicettaMedica = vendita.NumeroRicettaMedica
+                    PrezzoProdotto = 0, //prezzo non disponibile
+                    NumeroRicettaMedica = vendita.NumeroRicettaMedica,
+                    DataVendita = vendita.DataVendita
+
                 };
             }
             catch (Exception ex)
@@ -94,8 +99,10 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                         UserName = $"{v.User.FirstName} {v.User.LastName}",
                         ProdottoId = v.ProdottoId,
                         NomeProdotto = v.Prodotto.Nome,
-                        PrezzoProdotto = 0, // Assumendo che il prezzo non sia disponibile
-                        NumeroRicettaMedica = v.NumeroRicettaMedica
+                        PrezzoProdotto = 0, //prezzo non disponibile
+                        NumeroRicettaMedica = v.NumeroRicettaMedica,
+                        DataVendita = v.DataVendita
+
                     })
                     .ToListAsync();
             }
@@ -121,8 +128,9 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                         UserName = $"{v.User.FirstName} {v.User.LastName}",
                         ProdottoId = v.ProdottoId,
                         NomeProdotto = v.Prodotto.Nome,
-                        PrezzoProdotto = 0, // Assumendo che il prezzo non sia disponibile
-                        NumeroRicettaMedica = v.NumeroRicettaMedica
+                        PrezzoProdotto = 0, //prezzo non disponibile
+                        NumeroRicettaMedica = v.NumeroRicettaMedica,
+                        DataVendita = v.DataVendita
                     })
                     .ToListAsync();
             }
@@ -157,14 +165,14 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                 {
                     ProdottoId = createVenditaDto.ProdottoId,
                     UserId = userId,
-                    NumeroRicettaMedica = createVenditaDto.NumeroRicettaMedica
+                    NumeroRicettaMedica = createVenditaDto.NumeroRicettaMedica,
+                    DataVendita = DateTime.Now
                 };
 
                 _context.Vendite.Add(vendita);
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
-                // Carica le relazioni per il DTO di risposta
                 await _context.Entry(vendita).Reference(v => v.User).LoadAsync();
                 await _context.Entry(vendita).Reference(v => v.Prodotto).LoadAsync();
 
@@ -175,8 +183,9 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                     UserName = $"{vendita.User.FirstName} {vendita.User.LastName}",
                     ProdottoId = vendita.ProdottoId,
                     NomeProdotto = vendita.Prodotto.Nome,
-                    PrezzoProdotto = 0, // Assumendo che il prezzo non sia disponibile
-                    NumeroRicettaMedica = vendita.NumeroRicettaMedica
+                    PrezzoProdotto = 0, // prezzo non disponibile
+                    NumeroRicettaMedica = vendita.NumeroRicettaMedica,
+                    DataVendita = vendita.DataVendita
                 };
             }
             catch (Exception ex)
@@ -202,7 +211,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                     throw new KeyNotFoundException($"Vendita con ID {id} non trovata");
                 }
 
-                // Aggiorna solo il numero della ricetta medica
+                // Aggiorna solo numero della ricetta medica
                 vendita.NumeroRicettaMedica = updateVenditaDto.NumeroRicettaMedica;
 
                 await _context.SaveChangesAsync();
@@ -215,8 +224,9 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                     UserName = $"{vendita.User.FirstName} {vendita.User.LastName}",
                     ProdottoId = vendita.ProdottoId,
                     NomeProdotto = vendita.Prodotto.Nome,
-                    PrezzoProdotto = 0, // Assumendo che il prezzo non sia disponibile
-                    NumeroRicettaMedica = vendita.NumeroRicettaMedica
+                    PrezzoProdotto = 0, //prezzo non disponibile
+                    NumeroRicettaMedica = vendita.NumeroRicettaMedica,
+                    DataVendita = vendita.DataVendita
                 };
             }
             catch (Exception ex)

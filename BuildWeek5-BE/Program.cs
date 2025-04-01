@@ -1,6 +1,7 @@
 using BuildWeek5_BE.Data;
 using BuildWeek5_BE.Models.Auth;
 using BuildWeek5_BE.Services;
+using BuildWeek5_BE.Services.Farmacia.Vendita;
 using BuildWeek5_BE.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -109,6 +110,8 @@ try
     builder.Services.AddScoped<SignInManager<ApplicationUser>>();
     builder.Services.AddScoped<RoleManager<ApplicationRole>>();
 
+
+
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     );
@@ -116,6 +119,8 @@ try
     builder.Services.AddScoped<AnimaleService>();
     builder.Services.AddScoped<VisitaService>();
     builder.Services.AddScoped<RicoveroService>();
+    builder.Services.AddScoped<VenditaService>();
+
 
 
 

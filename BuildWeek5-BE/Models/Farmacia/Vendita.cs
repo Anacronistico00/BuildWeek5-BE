@@ -22,5 +22,6 @@ namespace BuildWeek5_BE.Models.Farmacia
 
         public string? NumeroRicettaMedica { get; set; }
 
+        public DateTime DataVendita { get; set; } = DateTime.Now;
     }
 }

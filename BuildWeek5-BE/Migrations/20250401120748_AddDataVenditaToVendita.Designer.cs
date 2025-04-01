@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuildWeek5_BE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250401104406_Initial")]
-    partial class Initial
+    [Migration("20250401120748_AddDataVenditaToVendita")]
+    partial class AddDataVenditaToVendita
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,15 +123,15 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "32b6f7cf-1cbf-4dcc-a310-dfd8172088e8",
-                            ConcurrencyStamp = "32b6f7cf-1cbf-4dcc-a310-dfd8172088e8",
+                            Id = "0a9b15cc-6dc8-451d-a73e-b326000a24d1",
+                            ConcurrencyStamp = "0a9b15cc-6dc8-451d-a73e-b326000a24d1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "84682a31-a5a1-4830-978b-954344012e12",
-                            ConcurrencyStamp = "84682a31-a5a1-4830-978b-954344012e12",
+                            Id = "4fe8c539-b6c0-4643-812f-5b20848ccdc5",
+                            ConcurrencyStamp = "4fe8c539-b6c0-4643-812f-5b20848ccdc5",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -530,6 +530,9 @@ namespace BuildWeek5_BE.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataVendita")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("NumeroRicettaMedica")
                         .HasColumnType("nvarchar(max)");

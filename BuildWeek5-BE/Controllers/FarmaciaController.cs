@@ -18,19 +18,16 @@ namespace BuildWeek5_BE.Controllers
     public class FarmaciaController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<FarmaciaService> _logger;
-        private readonly FarmaciaService _farmaciaService;
-        private readonly IVenditaService _venditaService;
+        private readonly ILogger<VenditaService> _logger;
+        private readonly VenditaService _venditaService;
 
         public FarmaciaController(
             ApplicationDbContext context,
-            ILogger<FarmaciaService> logger,
-            FarmaciaService farmaciaService,
-            IVenditaService venditaService)
+            ILogger<VenditaService> logger,
+            VenditaService venditaService)
         {
             _context = context;
             _logger = logger;
-            _farmaciaService = farmaciaService;
             _venditaService = venditaService;
         }
 
