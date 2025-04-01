@@ -2,10 +2,9 @@
 
 namespace BuildWeek5_BE.DTOs.Farmacia
 {
-    public class UsoProdottoDto
+    public class AddProdottoResponseDto
     {
         [Required]
-        [StringLength(100)]
-        public string Descrizione { get; set; }
+        public required string Message { get; set; }
     }
 }
