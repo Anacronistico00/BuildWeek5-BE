@@ -14,12 +14,8 @@ namespace BuildWeek5_BE.DTOs.Farmacia
 
         [Required]
         [DataType(DataType.Date)]
-        public DateOnly DataDiAcquisto { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+        public DateOnly DataDiAcquisto { get; set; }
 
-        [Required]
-        public int FornitoreId { get; set; }
-
-        [ForeignKey("FornitoreId")]
         public FornitoreDto Fornitore { get; set; }
 
         public ICollection<UsoProdottoDto> Usi { get; set; }
