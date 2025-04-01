@@ -194,8 +194,13 @@ namespace BuildWeek5_BE.Services.Farmacia
                     return false;
                 }
 
+                // First remove the associated products
+                if (fornitore.Prodotti != null && fornitore.Prodotti.Any())
+                {
+                    _context.Prodotti.RemoveRange(fornitore.Prodotti);
+                }
 
-
+                // Then remove the fornitore
                 _context.Fornitori.Remove(fornitore);
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();

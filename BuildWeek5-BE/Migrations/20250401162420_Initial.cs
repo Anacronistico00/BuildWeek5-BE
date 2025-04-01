@@ -408,8 +408,8 @@ namespace BuildWeek5_BE.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2c1e2135-27de-4f92-8e40-53600113f243", "2c1e2135-27de-4f92-8e40-53600113f243", "User", "USER" },
-                    { "affd9b8a-97d5-4427-99f4-b2c99e34c264", "affd9b8a-97d5-4427-99f4-b2c99e34c264", "Admin", "ADMIN" }
+                    { "0fde20e2-4ca8-4157-8d6e-f5622221cbda", "0fde20e2-4ca8-4157-8d6e-f5622221cbda", "Admin", "ADMIN" },
+                    { "4e254e4e-514f-4548-bbd3-e92f200b3e8a", "4e254e4e-514f-4548-bbd3-e92f200b3e8a", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(

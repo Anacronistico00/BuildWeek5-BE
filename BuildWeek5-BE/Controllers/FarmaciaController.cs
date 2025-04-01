@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using BuildWeek5_BE.Services.Farmacia.Vendita;
 using BuildWeek5_BE.Services.Farmacia;
 using BuildWeek5_BE.DTOs.Farmacia.Fornitore;
+using Microsoft.EntityFrameworkCore;
 
 namespace BuildWeek5_BE.Controllers
 {
@@ -35,13 +36,13 @@ namespace BuildWeek5_BE.Controllers
             ILogger<VenditaService> logger,
             VenditaService venditaService,
             FornitoreService fornitoreService,
-            FarmaciaService faarmaciaService)
+            FarmaciaService farmaciaService)
         {
             _context = context;
             _logger = logger;
             _venditaService = venditaService;
             _fornitoreService = fornitoreService;
-            _farmaciaService = faarmaciaService;
+            _farmaciaService = farmaciaService;
         }
 
         // -----------------------------------------------   Inizio Controller Vendita   ---------------------------------------------------------------------------//
@@ -63,7 +64,7 @@ namespace BuildWeek5_BE.Controllers
             }
         }
         //get vendita in base al numero di ricettaMedica
-        [HttpGet("vendite/{numeroRicetta}")]
+        [HttpGet("vendite/ricetta/{numeroRicetta}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<VenditaDto>> GetVenditaByNumeroRicetta(string numeroRicetta)
         {
@@ -87,7 +88,7 @@ namespace BuildWeek5_BE.Controllers
 
 
         // get vendita specifica per ID
-        [HttpGet("vendite/{id}")]
+        [HttpGet("vendite/id/{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<VenditaDto>> GetVenditaById(int id)
         {
@@ -328,22 +329,31 @@ namespace BuildWeek5_BE.Controllers
             try
             {
                 var result = await _fornitoreService.DeleteFornitoreAsync(id);
+
                 if (!result)
                 {
                     return NotFound($"Fornitore con ID {id} non trovato");
                 }
+
                 return NoContent();
             }
             catch (InvalidOperationException ex)
             {
-                return BadRequest(ex.Message);
+                _fornitoreLogger.LogWarning(ex, $"Operazione non valida durante l'eliminazione del fornitore con ID {id}: {ex.Message}");
+                return BadRequest($"Impossibile eliminare il fornitore: {ex.Message}");
+            }
+            catch (DbUpdateException ex)
+            {
+                _fornitoreLogger.LogError(ex, $"Errore di database durante l'eliminazione del fornitore con ID {id}");
+                return BadRequest("Impossibile eliminare il fornitore perché è collegato ad altri dati nel sistema. Rimuovere prima i prodotti associati.");
             }
             catch (Exception ex)
             {
-                _fornitoreLogger.LogError(ex, $"Errore durante l'eliminazione del fornitore con ID {id}");
-                return StatusCode(500, "Si è verificato un errore durante l'elaborazione della richiesta");
+                _fornitoreLogger.LogError(ex, $"Errore non gestito durante l'eliminazione del fornitore con ID {id}");
+                return StatusCode(500, "Si è verificato un errore interno durante l'elaborazione della richiesta. Contattare l'amministratore di sistema.");
             }
         }
+
 
         // ricerca fornitori per nome
         [HttpGet("fornitori/cerca")]
@@ -368,7 +378,7 @@ namespace BuildWeek5_BE.Controllers
         {
             var newProduct = await _farmaciaService.CreateProductAsync(prodotto);
 
-            if(newProduct == null)
+            if (newProduct == null)
             {
                 return BadRequest(new AddProdottoResponseDto()
                 {
