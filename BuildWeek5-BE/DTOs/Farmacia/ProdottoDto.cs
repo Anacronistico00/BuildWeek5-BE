@@ -19,8 +19,6 @@ namespace BuildWeek5_BE.DTOs.Farmacia
         [DataType(DataType.Date)]
         public DateOnly DataDiAcquisto { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
-        [ForeignKey(nameof(Cliente))]
-        public string UserId { get; set; }
         public UserDto Cliente { get; set; }
     }
 }

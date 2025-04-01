@@ -1,4 +1,5 @@
 ﻿using BuildWeek5_BE.Data;
+using BuildWeek5_BE.DTOs.Farmacia;
 using BuildWeek5_BE.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,5 +20,6 @@ namespace BuildWeek5_BE.Controllers
             _logger = logger;
             _farmaciaService = farmaciaService;
         }
+
     }
 }
