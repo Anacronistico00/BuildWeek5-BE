@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BuildWeek5_BE.DTOs.Farmacia
+namespace BuildWeek5_BE.DTOs.Farmacia.Vendita
 {
     public class VenditaDto
     {
