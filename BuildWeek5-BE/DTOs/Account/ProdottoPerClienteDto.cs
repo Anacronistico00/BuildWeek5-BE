@@ -1,12 +1,10 @@
 ﻿using BuildWeek5_BE.DTOs.Farmacia;
-using BuildWeek5_BE.Models.Farmacia;
-using Microsoft.AspNetCore.Identity;
+using BuildWeek5_BE.Models.Auth;
 using System.ComponentModel.DataAnnotations;
-using System.Net.Sockets;
 
-namespace BuildWeek5_BE.Models.Auth
+namespace BuildWeek5_BE.DTOs.Account
 {
-    public class ApplicationUser : IdentityUser
+    public class ProdottoPerClienteDto
     {
         [Required]
         public required string FirstName { get; set; }
@@ -15,13 +13,8 @@ namespace BuildWeek5_BE.Models.Auth
         public required string LastName { get; set; }
 
         [Required]
-        public required DateOnly BirthDate { get; set; }
-
-        [Required]
         [StringLength(16)]
         public required string FiscalCode { get; set; }
-
-        public ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; }
 
         public ICollection<ProdottoDto> Prodotti { get; set; }
     }

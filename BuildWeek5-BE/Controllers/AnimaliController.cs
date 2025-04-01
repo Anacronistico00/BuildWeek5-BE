@@ -132,5 +132,20 @@ namespace BuildWeek5_BE.Controllers
             return result ? Ok(new { Message = "Puppy correctly updated!" })
                           : BadRequest(new { Message = "Something went wrong!" });
         }
+
+        [HttpGet("{NumeroMicrochip}")]
+        public async Task<IActionResult> SearchByChip(string NumeroMicrochip)
+        {
+            var result = await _animaleService.SearchByChipAsync(NumeroMicrochip);
+
+            return result != null ? Ok(new GetAnimaleByIdResponseDto()
+            {
+                Message = "Lost puppy correctly found!",
+                Puppy = result
+            }) : BadRequest(new
+            {
+                message = "No puppies found for this chip Number!"
+            });
+        }
     }
 }

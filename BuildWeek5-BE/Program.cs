@@ -115,6 +115,8 @@ try
 
     builder.Services.AddScoped<AnimaleService>();
     builder.Services.AddScoped<VisitaService>();
+    builder.Services.AddScoped<FarmaciaService>();
+    builder.Services.AddScoped<RicoveroService>();
 
     builder.Host.UseSerilog();
 
