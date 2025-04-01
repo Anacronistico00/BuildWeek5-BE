@@ -27,6 +27,7 @@ namespace BuildWeek5_BE.Data
         public DbSet<Armadietto> Armadietti { get; set; }
         public DbSet<UtenteProdotto> UtentiProdotti { get; set; }
         public DbSet<Fornitore> Fornitori { get; set; }
+        public DbSet<Vendita> Vendite { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

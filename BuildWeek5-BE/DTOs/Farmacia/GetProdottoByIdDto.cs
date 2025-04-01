@@ -1,4 +1,5 @@
-﻿using BuildWeek5_BE.Models.Farmacia;
+﻿using BuildWeek5_BE.DTOs.Farmacia.Fornitore;
+using BuildWeek5_BE.Models.Farmacia;
 using System.ComponentModel.DataAnnotations;
 
 namespace BuildWeek5_BE.DTOs.Farmacia

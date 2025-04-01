@@ -120,15 +120,15 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "118466fb-1b61-48cd-a0cc-e0820c6d722e",
-                            ConcurrencyStamp = "118466fb-1b61-48cd-a0cc-e0820c6d722e",
+                            Id = "affd9b8a-97d5-4427-99f4-b2c99e34c264",
+                            ConcurrencyStamp = "affd9b8a-97d5-4427-99f4-b2c99e34c264",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "0d80f51f-40ea-4b0c-bf73-37a31008209c",
-                            ConcurrencyStamp = "0d80f51f-40ea-4b0c-bf73-37a31008209c",
+                            Id = "2c1e2135-27de-4f92-8e40-53600113f243",
+                            ConcurrencyStamp = "2c1e2135-27de-4f92-8e40-53600113f243",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -501,6 +501,41 @@ namespace BuildWeek5_BE.Migrations
                     b.ToTable("UtentiProdotti");
                 });
 
+            modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Vendita", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataVendita")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NumeroRicettaMedica")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProdottoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RicettaMedica")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProdottoId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Vendite");
+                });
+
             modelBuilder.Entity("BuildWeek5_BE.Models.Ricovero", b =>
                 {
                     b.Property<int>("RicoveroId")
@@ -749,6 +784,25 @@ namespace BuildWeek5_BE.Migrations
                     b.Navigation("Cliente");
 
                     b.Navigation("Prodotto");
+                });
+
+            modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Vendita", b =>
+                {
+                    b.HasOne("BuildWeek5_BE.Models.Farmacia.Prodotto", "Prodotto")
+                        .WithMany()
+                        .HasForeignKey("ProdottoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BuildWeek5_BE.Models.Auth.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Prodotto");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Ricovero", b =>

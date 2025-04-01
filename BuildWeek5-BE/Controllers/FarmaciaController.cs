@@ -12,6 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BuildWeek5_BE.Services.Farmacia.Vendita;
+using BuildWeek5_BE.Services.Farmacia;
+using BuildWeek5_BE.DTOs.Farmacia.Fornitore;
 
 namespace BuildWeek5_BE.Controllers
 {
@@ -24,18 +27,21 @@ namespace BuildWeek5_BE.Controllers
         private readonly ILogger<FornitoreService> _fornitoreLogger;
         private readonly VenditaService _venditaService;
         private readonly FornitoreService _fornitoreService;
+        private readonly FarmaciaService _farmaciaService;
 
 
         public FarmaciaController(
             ApplicationDbContext context,
             ILogger<VenditaService> logger,
             VenditaService venditaService,
-            FornitoreService fornitoreService)
+            FornitoreService fornitoreService,
+            FarmaciaService faarmaciaService)
         {
             _context = context;
             _logger = logger;
             _venditaService = venditaService;
             _fornitoreService = fornitoreService;
+            _farmaciaService = faarmaciaService;
         }
 
         // -----------------------------------------------   Inizio Controller Vendita   ---------------------------------------------------------------------------//

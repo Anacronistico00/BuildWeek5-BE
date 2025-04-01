@@ -12,11 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuildWeek5_BE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:BuildWeek5-BE/Migrations/20250401141822_Initial.Designer.cs
-    [Migration("20250401141822_Initial")]
-========
-    [Migration("20250401142811_Initial")]
->>>>>>>> origin/osamapt2PerfettoQuasi-Test:BuildWeek5-BE/Migrations/20250401142811_Initial.Designer.cs
+    [Migration("20250401155933_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -127,25 +123,15 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-<<<<<<<< HEAD:BuildWeek5-BE/Migrations/20250401141822_Initial.Designer.cs
-                            Id = "118466fb-1b61-48cd-a0cc-e0820c6d722e",
-                            ConcurrencyStamp = "118466fb-1b61-48cd-a0cc-e0820c6d722e",
-========
-                            Id = "192fc64f-4e01-47cc-95c1-2749ccd1ac31",
-                            ConcurrencyStamp = "192fc64f-4e01-47cc-95c1-2749ccd1ac31",
->>>>>>>> origin/osamapt2PerfettoQuasi-Test:BuildWeek5-BE/Migrations/20250401142811_Initial.Designer.cs
+                            Id = "affd9b8a-97d5-4427-99f4-b2c99e34c264",
+                            ConcurrencyStamp = "affd9b8a-97d5-4427-99f4-b2c99e34c264",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-<<<<<<<< HEAD:BuildWeek5-BE/Migrations/20250401141822_Initial.Designer.cs
-                            Id = "0d80f51f-40ea-4b0c-bf73-37a31008209c",
-                            ConcurrencyStamp = "0d80f51f-40ea-4b0c-bf73-37a31008209c",
-========
-                            Id = "8b5b3007-4a66-41bf-bcee-7b5ac245fe08",
-                            ConcurrencyStamp = "8b5b3007-4a66-41bf-bcee-7b5ac245fe08",
->>>>>>>> origin/osamapt2PerfettoQuasi-Test:BuildWeek5-BE/Migrations/20250401142811_Initial.Designer.cs
+                            Id = "2c1e2135-27de-4f92-8e40-53600113f243",
+                            ConcurrencyStamp = "2c1e2135-27de-4f92-8e40-53600113f243",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -515,10 +501,7 @@ namespace BuildWeek5_BE.Migrations
 
                     b.HasIndex("prodottoId");
 
-<<<<<<<< HEAD:BuildWeek5-BE/Migrations/20250401141822_Initial.Designer.cs
                     b.ToTable("UtentiProdotti");
-========
-                    b.ToTable("UtenteProdotto");
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Vendita", b =>
@@ -540,7 +523,8 @@ namespace BuildWeek5_BE.Migrations
 
                     b.Property<string>("RicettaMedica")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -553,7 +537,6 @@ namespace BuildWeek5_BE.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Vendite");
->>>>>>>> origin/osamapt2PerfettoQuasi-Test:BuildWeek5-BE/Migrations/20250401142811_Initial.Designer.cs
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Ricovero", b =>
@@ -804,6 +787,25 @@ namespace BuildWeek5_BE.Migrations
                     b.Navigation("Cliente");
 
                     b.Navigation("Prodotto");
+                });
+
+            modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Vendita", b =>
+                {
+                    b.HasOne("BuildWeek5_BE.Models.Farmacia.Prodotto", "Prodotto")
+                        .WithMany()
+                        .HasForeignKey("ProdottoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BuildWeek5_BE.Models.Auth.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Prodotto");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Ricovero", b =>

@@ -1,5 +1,6 @@
 ﻿using BuildWeek5_BE.Data;
 using BuildWeek5_BE.DTOs.Farmacia;
+using BuildWeek5_BE.DTOs.Farmacia.Fornitore;
 using BuildWeek5_BE.DTOs.Puppy;
 using BuildWeek5_BE.Models.Farmacia;
 using Microsoft.EntityFrameworkCore;

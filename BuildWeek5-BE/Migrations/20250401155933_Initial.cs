@@ -364,8 +364,6 @@ namespace BuildWeek5_BE.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-<<<<<<<< HEAD:BuildWeek5-BE/Migrations/20250401141822_Initial.cs
-========
             migrationBuilder.CreateTable(
                 name: "Vendite",
                 columns: table => new
@@ -373,7 +371,7 @@ namespace BuildWeek5_BE.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RicettaMedica = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RicettaMedica = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ProdottoId = table.Column<int>(type: "int", nullable: false),
                     NumeroRicettaMedica = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DataVendita = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -392,10 +390,9 @@ namespace BuildWeek5_BE.Migrations
                         column: x => x.ProdottoId,
                         principalTable: "Prodotti",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
->>>>>>>> origin/osamapt2PerfettoQuasi-Test:BuildWeek5-BE/Migrations/20250401142811_Initial.cs
             migrationBuilder.InsertData(
                 table: "Armadietti",
                 column: "ArmadiettoId",
@@ -411,13 +408,8 @@ namespace BuildWeek5_BE.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:BuildWeek5-BE/Migrations/20250401141822_Initial.cs
-                    { "0d80f51f-40ea-4b0c-bf73-37a31008209c", "0d80f51f-40ea-4b0c-bf73-37a31008209c", "User", "USER" },
-                    { "118466fb-1b61-48cd-a0cc-e0820c6d722e", "118466fb-1b61-48cd-a0cc-e0820c6d722e", "Admin", "ADMIN" }
-========
-                    { "192fc64f-4e01-47cc-95c1-2749ccd1ac31", "192fc64f-4e01-47cc-95c1-2749ccd1ac31", "Admin", "ADMIN" },
-                    { "8b5b3007-4a66-41bf-bcee-7b5ac245fe08", "8b5b3007-4a66-41bf-bcee-7b5ac245fe08", "User", "USER" }
->>>>>>>> origin/osamapt2PerfettoQuasi-Test:BuildWeek5-BE/Migrations/20250401142811_Initial.cs
+                    { "2c1e2135-27de-4f92-8e40-53600113f243", "2c1e2135-27de-4f92-8e40-53600113f243", "User", "USER" },
+                    { "affd9b8a-97d5-4427-99f4-b2c99e34c264", "affd9b8a-97d5-4427-99f4-b2c99e34c264", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -562,6 +554,16 @@ namespace BuildWeek5_BE.Migrations
                 column: "prodottoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Vendite_ProdottoId",
+                table: "Vendite",
+                column: "ProdottoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vendite_UserId",
+                table: "Vendite",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Visite_PuppyId",
                 table: "Visite",
                 column: "PuppyId");
@@ -593,6 +595,9 @@ namespace BuildWeek5_BE.Migrations
 
             migrationBuilder.DropTable(
                 name: "UtentiProdotti");
+
+            migrationBuilder.DropTable(
+                name: "Vendite");
 
             migrationBuilder.DropTable(
                 name: "Visite");
