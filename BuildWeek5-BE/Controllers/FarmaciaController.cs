@@ -463,7 +463,7 @@ namespace BuildWeek5_BE.Controllers
 
             return result ? Ok(new
             {
-                message = "Puppy correctly removed!",
+                message = "Product correctly removed!",
             }) : BadRequest(new
             {
                 message = "Something went wrong!"
