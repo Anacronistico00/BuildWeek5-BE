@@ -198,5 +198,42 @@ namespace BuildWeek5_BE.Services
                 return false;
             }
         }
+
+        public async Task<GetAnimaleDto> SearchByChipAsync(string chipId)
+        {
+            try
+            {
+                var animaleByChip = await _context.Puppies.Include(u => u.User).FirstOrDefaultAsync(p => p.NumeroMicrochip == chipId);
+
+                if (animaleByChip != null)
+                {
+                    var AnimaleDto = new GetAnimaleDto()
+                    {
+                        PuppyId = animaleByChip.PuppyId,
+                        DataRegistrazione = animaleByChip.DataRegistrazione,
+                        Nome = animaleByChip.Nome,
+                        Tipologia = animaleByChip.Tipologia,
+                        ColoreMantello = animaleByChip.ColoreMantello,
+                        DataNascita = animaleByChip.DataNascita,
+                        MicrochipPresente = animaleByChip.MicrochipPresente,
+                        NumeroMicrochip = animaleByChip.NumeroMicrochip,
+                        UserId = animaleByChip.UserId,
+                        User = new UserDto()
+                        {
+                            FirstName = animaleByChip.User.FirstName,
+                            LastName = animaleByChip.User.LastName
+                        }
+                    };
+                    return AnimaleDto;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return null;
+            }
+        }
     }
 }

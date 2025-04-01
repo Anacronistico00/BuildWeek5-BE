@@ -118,6 +118,7 @@ try
     builder.Services.AddScoped<RicoveroService>();
 
 
+
     builder.Host.UseSerilog();
 
     var app = builder.Build();

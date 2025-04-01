@@ -1,4 +1,5 @@
 ﻿using BuildWeek5_BE.Data;
+using BuildWeek5_BE.DTOs.Animale;
 using BuildWeek5_BE.DTOs.Visita;
 using BuildWeek5_BE.Models;
 using Microsoft.EntityFrameworkCore;
@@ -50,14 +51,29 @@ namespace BuildWeek5_BE.Services
         }
 
 
-        public async Task<List<Visita>?> GetAllVisiteAsync()
+        public async Task<List<GetVisitaDto>?> GetAllVisiteAsync()
         {
             try
             {
                 var visite = await _context.Visite
                     .Include(v => v.Animale)
                     .ToListAsync();
-                return visite;
+
+                List<GetVisitaDto> visiteList = visite.Select(v =>
+                new GetVisitaDto()
+                {
+                    Id = v.Id,
+                    DataVisita = v.DataVisita,
+                    ObiettivoEsame = v.ObiettivoEsame,
+                    DescrizioneCura = v.DescrizioneCura,
+                    PuppyId = v.PuppyId,
+                    Animale = new AnimaleDto()
+                    {
+                        Nome = v.Animale.Nome,
+                        Tipologia = v.Animale.Tipologia,
+                    }
+                }).ToList();
+                return visiteList;
             }
             catch (Exception ex)
             {
@@ -81,25 +97,24 @@ namespace BuildWeek5_BE.Services
             }
         }
 
-        public async Task<Visita?> UpdateVisitaAsync(int id, AddVisitaRequestDto visitaDto)
+        public async Task<bool> UpdateVisitaAsync(int id, UpdateVisitaRequestDto visitaDto)
         {
             try
             {
                 var visita = await _context.Visite.FindAsync(id);
                 if (visita == null)
-                    return null;
+                    return false;
 
+                visita.DataVisita = visitaDto.DataVisita;
                 visita.ObiettivoEsame = visitaDto.ObiettivoEsame;
                 visita.DescrizioneCura = visitaDto.DescrizioneCura;
-                visita.PuppyId = visitaDto.PuppyId;
 
-                var success = await SaveAsync();
-                return success ? visita : null;
+                return await SaveAsync();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return null;
+                return false;
             }
         }
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BuildWeek5_BE.DTOs.Farmacia;
+using BuildWeek5_BE.Models.Farmacia;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Sockets;
 
@@ -20,5 +22,7 @@ namespace BuildWeek5_BE.Models.Auth
         public required string FiscalCode { get; set; }
 
         public ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; }
+
+        public ICollection<Prodotto> Prodotti { get; set; }
     }
 }
