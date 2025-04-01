@@ -4,6 +4,8 @@ namespace BuildWeek5_BE.DTOs.Account
 {
     public class UserDto
     {
+        public string Id { get; set; }
+
         [Required]
         public required string FirstName { get; set; }
 
