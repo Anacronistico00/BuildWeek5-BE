@@ -148,7 +148,7 @@ namespace BuildWeek5_BE.Services
                 if (ricovero == null)
                     throw new KeyNotFoundException($"Ricovero con ID {id} non trovato.");
 
-                if (updateRicoveroDto.DataFineRicovero.HasValue && updateRicoveroDto.DataFineRicovero.Value <= ricovero.DataInizioRicovero)
+                if (updateRicoveroDto.DataFineRicovero.HasValue && updateRicoveroDto.DataFineRicovero.Value < ricovero.DataInizioRicovero)
                     throw new InvalidOperationException("La data di fine ricovero deve essere successiva alla data di inizio.");
 
                 ricovero.Descrizione = updateRicoveroDto.Descrizione;
