@@ -37,9 +37,12 @@ namespace BuildWeek5_BE.Models.Farmacia
 
         public ICollection<Vendita> vendite { get; set; }
 
-        [ForeignKey(nameof(Cliente))]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
-        public ApplicationUser Cliente { get; set; }
+        [ForeignKey(nameof(UserId))]
+        public ICollection<ApplicationUser>? Cliente { get; set; }
+
+        public ICollection<UtenteProdotto>? UtenteProdotto { get; set; }
+
     }
 }
