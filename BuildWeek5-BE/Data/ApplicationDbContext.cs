@@ -53,6 +53,10 @@ namespace BuildWeek5_BE.Data
 
             modelBuilder.Entity<UsoProdotto>().HasOne(u => u.Prodotto).WithMany(p => p.Usi).HasForeignKey(u => u.ProdottoId);
 
+            modelBuilder.Entity<UtenteProdotto>().HasKey(up => new { up.utenteId, up.prodottoId });
+            modelBuilder.Entity<UtenteProdotto>().HasOne(p => p.Prodotto).WithMany(p => p.UtenteProdotto).HasForeignKey(p => p.prodottoId);
+            modelBuilder.Entity<UtenteProdotto>().HasOne(u => u.Cliente).WithMany(c => c.UtenteProdotto).HasForeignKey(c => c.utenteId);
+
             var adminId = Guid.NewGuid().ToString();
             var userId = Guid.NewGuid().ToString();
 
