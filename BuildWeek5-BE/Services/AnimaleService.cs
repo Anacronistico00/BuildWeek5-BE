@@ -97,11 +97,11 @@ namespace BuildWeek5_BE.Services
                     MicrochipPresente = a.MicrochipPresente,
                     NumeroMicrochip = a.NumeroMicrochip,
                     UserId = a.UserId,
-                    User = new UserDto()
+                    User = a.User != null ? new UserDto()
                     {
                         FirstName = a.User.FirstName,
                         LastName = a.User.LastName
-                    }
+                    } : null
                 }).ToList();
                 return AnimaliDto;
             }
@@ -131,11 +131,11 @@ namespace BuildWeek5_BE.Services
                         MicrochipPresente = animaleById.MicrochipPresente,
                         NumeroMicrochip = animaleById.NumeroMicrochip,
                         UserId = animaleById.UserId,
-                        User = new UserDto()
+                        User = animaleById.User != null ? new UserDto()
                         {
                             FirstName = animaleById.User.FirstName,
                             LastName = animaleById.User.LastName
-                        }
+                        } : null
                     };
                 return AnimaliDto;
                 }

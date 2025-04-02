@@ -23,6 +23,9 @@ namespace BuildWeek5_BE.Models.Auth
 
         public ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; }
 
-        public ICollection<ProdottoDto> Prodotti { get; set; }
+        public ICollection<Prodotto> Prodotti { get; set; }
+
+        public ICollection<UtenteProdotto>? UtenteProdotto { get; set; }
+
     }
 }

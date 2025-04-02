@@ -14,16 +14,12 @@ namespace BuildWeek5_BE.Models.Farmacia
         public string Nome { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        public DateOnly DataDiAcquisto { get; set; } = DateOnly.FromDateTime(DateTime.Now);
-
-        [Required]
         public int FornitoreId { get; set; }
 
         [ForeignKey("FornitoreId")]
         public Fornitore Fornitore { get; set; }
 
-        public ICollection<UsoProdotto> Usi { get; set; }
+        public required string UsiProdotto { get; set; }
 
         [ForeignKey(nameof(Cassetto))]
         public int CassettoId { get; set; }
@@ -35,11 +31,11 @@ namespace BuildWeek5_BE.Models.Farmacia
 
         public Armadietto Armadietto { get; set; }
 
-        public ICollection<Vendita> vendite { get; set; }
+        public string? UserId { get; set; }
 
-        [ForeignKey(nameof(Cliente))]
-        public string UserId { get; set; }
+        [ForeignKey(nameof(UserId))]
+        public ICollection<ApplicationUser>? Cliente { get; set; }
 
-        public ApplicationUser Cliente { get; set; }
+        public ICollection<UtenteProdotto>? UtenteProdotto { get; set; }
     }
 }
