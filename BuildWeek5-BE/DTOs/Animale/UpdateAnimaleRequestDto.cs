@@ -27,6 +27,6 @@ namespace BuildWeek5_BE.DTOs.Puppy
         [StringLength(15)]
         public string? NumeroMicrochip { get; set; }
 
-        public string? UserId { get; set; }
+        public int? UserId { get; set; }
     }
 }

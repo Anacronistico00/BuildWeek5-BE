@@ -96,9 +96,9 @@ namespace BuildWeek5_BE.Services
                     DataNascita = a.DataNascita,
                     MicrochipPresente = a.MicrochipPresente,
                     NumeroMicrochip = a.NumeroMicrochip,
-                    UserId = a.CustomerId,
-                    User = a.Customer != null ? new UserDto()
+                    Owner = a.Customer != null ? new UserDto()
                     {
+                        UserId = a.CustomerId,
                         FirstName = a.Customer.Nome,
                         LastName = a.Customer.Cognome
                     } : null
@@ -130,8 +130,7 @@ namespace BuildWeek5_BE.Services
                         DataNascita = animaleById.DataNascita,
                         MicrochipPresente = animaleById.MicrochipPresente,
                         NumeroMicrochip = animaleById.NumeroMicrochip,
-                        UserId = animaleById.CustomerId,
-                        User = animaleById.Customer != null ? new UserDto()
+                        Owner = animaleById.Customer != null ? new UserDto()
                         {
                             FirstName = animaleById.Customer.Nome,
                             LastName = animaleById.Customer.Cognome
@@ -217,8 +216,7 @@ namespace BuildWeek5_BE.Services
                         DataNascita = animaleByChip.DataNascita,
                         MicrochipPresente = animaleByChip.MicrochipPresente,
                         NumeroMicrochip = animaleByChip.NumeroMicrochip,
-                        UserId = animaleByChip.CustomerId,
-                        User = new UserDto()
+                        Owner = new UserDto()
                         {
                             FirstName = animaleByChip.Customer.Nome,
                             LastName = animaleByChip.Customer.Cognome

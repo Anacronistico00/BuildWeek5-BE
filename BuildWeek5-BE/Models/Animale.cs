@@ -37,9 +37,9 @@ namespace BuildWeek5_BE.Models
         [StringLength(15)]
         public string? NumeroMicrochip { get; set; }
 
-        public string? CustomerId { get; set; }
+        public int? CustomerId { get; set; }
 
-        [ForeignKey("UserId")]
+        [ForeignKey("CustomerId")]
         public Cliente? Customer { get; set; }
 
         public ICollection<Visita>? Visite { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BuildWeek5_BE.DTOs.Clienti;
+using System.ComponentModel.DataAnnotations;
 
 namespace BuildWeek5_BE.DTOs.Puppy
 {

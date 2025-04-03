@@ -35,9 +35,6 @@ namespace BuildWeek5_BE.DTOs.Puppy
         [StringLength(15)]
         public string? NumeroMicrochip { get; set; }
 
-        [ForeignKey("User")]
-        public string? UserId { get; set; }
-
-        public UserDto? User { get; set; }
+        public UserDto? Owner { get; set; }
     }
 }

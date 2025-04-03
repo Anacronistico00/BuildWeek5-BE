@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using BuildWeek5_BE.Services.Farmacia.Vendita;
 using BuildWeek5_BE.Services.Farmacia;
 using BuildWeek5_BE.DTOs.Farmacia.Fornitore;
+using BuildWeek5_BE.DTOs.Farmacia.DtosProdotto;
 
 namespace BuildWeek5_BE.Controllers
 {

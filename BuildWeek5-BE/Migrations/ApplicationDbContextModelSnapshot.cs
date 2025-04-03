@@ -35,8 +35,8 @@ namespace BuildWeek5_BE.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<DateOnly>("DataNascita")
                         .HasColumnType("date");
@@ -61,16 +61,13 @@ namespace BuildWeek5_BE.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("PuppyId");
+
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("NumeroMicrochip")
                         .IsUnique()
                         .HasFilter("[NumeroMicrochip] IS NOT NULL");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex("Nome", "CustomerId")
                         .IsUnique()
@@ -108,15 +105,15 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "982ef689-dac3-4d69-9fca-b063fd900f46",
-                            ConcurrencyStamp = "982ef689-dac3-4d69-9fca-b063fd900f46",
+                            Id = "922a1ad7-412c-4ab2-bc63-4dbb97402da8",
+                            ConcurrencyStamp = "922a1ad7-412c-4ab2-bc63-4dbb97402da8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b7a3312a-8a5c-42e2-80aa-7e255e06bb77",
-                            ConcurrencyStamp = "b7a3312a-8a5c-42e2-80aa-7e255e06bb77",
+                            Id = "1247e5bd-fd45-4b25-8746-08f7126de210",
+                            ConcurrencyStamp = "1247e5bd-fd45-4b25-8746-08f7126de210",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -731,7 +728,7 @@ namespace BuildWeek5_BE.Migrations
                 {
                     b.HasOne("BuildWeek5_BE.Models.Cliente", "Customer")
                         .WithMany("Animali")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("CustomerId");
 
                     b.Navigation("Customer");
                 });
