@@ -102,7 +102,10 @@ namespace BuildWeek5_BE.Services
                     {
                         Id = a.Cliente.Id,
                         Nome = a.Cliente.Nome,
-                        Cognome = a.Cliente.Cognome
+                        Cognome = a.Cliente.Cognome,
+                        CodiceFiscale = a.Cliente.CodiceFiscale,
+                        DataDiNascita = a.Cliente.DataDiNascita,
+                        Indirizzo = a.Cliente.Indirizzo
                     } : null
                 }).ToList();
 
