@@ -49,7 +49,7 @@ namespace BuildWeek5_BE.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetPuppies()
         {
             try
@@ -90,7 +90,7 @@ namespace BuildWeek5_BE.Controllers
         }
 
         [HttpGet("{id:int}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetPuppyById(int id)
         {
             var result = await _animaleService.GetPuppyDtoByIdAsync(id);
@@ -106,7 +106,7 @@ namespace BuildWeek5_BE.Controllers
         }
 
         [HttpGet("cliente/{clienteId:int}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetPuppiesByClienteId(int clienteId)
         {
             var puppiesDto = await _animaleService.GetPuppiesByClienteIdAsync(clienteId);
@@ -162,6 +162,8 @@ namespace BuildWeek5_BE.Controllers
         }
 
         [HttpGet("microchip/{NumeroMicrochip}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> SearchByChip(string NumeroMicrochip)
         {
             var result = await _animaleService.SearchByChipAsync(NumeroMicrochip);

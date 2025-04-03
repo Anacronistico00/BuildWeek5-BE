@@ -123,6 +123,8 @@ try
     builder.Services.AddScoped<VenditaService>();
     builder.Services.AddScoped<FornitoreService>();
     builder.Services.AddScoped<FarmaciaService>();
+    builder.Services.AddScoped<ClienteService>();
+
 
     builder.Host.UseSerilog();
 

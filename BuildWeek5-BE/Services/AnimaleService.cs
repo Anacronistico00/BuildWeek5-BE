@@ -138,7 +138,6 @@ namespace BuildWeek5_BE.Services
                             Id = animaleById.Cliente.Id,
                             Nome = animaleById.Cliente.Nome,
                             Cognome = animaleById.Cliente.Cognome
-                            // Add other properties as needed
                         } : null
                     };
                     return AnimaliDto;
@@ -235,7 +234,6 @@ namespace BuildWeek5_BE.Services
             }
         }
 
-        // Add a method to get puppies by cliente id
         public async Task<List<GetAnimaleDto>?> GetPuppiesByClienteIdAsync(int clienteId)
         {
             try
