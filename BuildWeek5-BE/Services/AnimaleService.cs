@@ -1,4 +1,5 @@
 ﻿using BuildWeek5_BE.Data;
+using BuildWeek5_BE.DTOs.Account;
 using BuildWeek5_BE.DTOs.Clienti;
 using BuildWeek5_BE.DTOs.Puppy;
 using BuildWeek5_BE.Models;
@@ -42,7 +43,7 @@ namespace BuildWeek5_BE.Services
                     DataNascita = puppy.DataNascita,
                     MicrochipPresente = puppy.MicrochipPresente,
                     NumeroMicrochip = puppy.NumeroMicrochip,
-                    ClienteId = puppy.ClienteId
+                    ClienteId = puppy.ClienteId,
                 };
 
                 return newPuppy;
@@ -222,7 +223,6 @@ namespace BuildWeek5_BE.Services
                             Id = animaleByChip.Cliente.Id,
                             Nome = animaleByChip.Cliente.Nome,
                             Cognome = animaleByChip.Cliente.Cognome
-                            // Add other properties as needed
                         } : null
                     };
                     return AnimaleDto;

@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 
-namespace BuildWeek5_BE.DTOs.Farmacia
+namespace BuildWeek5_BE.DTOs.Farmacia.DtosProdotto
 {
     public class SearchByNameResponseDto
     {

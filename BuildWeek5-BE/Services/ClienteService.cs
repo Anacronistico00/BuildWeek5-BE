@@ -1,5 +1,9 @@
-﻿using BuildWeek5_BE.Data;
+﻿using Azure.Core;
+using BuildWeek5_BE.Data;
+using BuildWeek5_BE.DTOs.Account;
+using BuildWeek5_BE.DTOs.Animale;
 using BuildWeek5_BE.DTOs.Clienti;
+using BuildWeek5_BE.DTOs.Puppy;
 using BuildWeek5_BE.Models;
 using Microsoft.EntityFrameworkCore;
 
