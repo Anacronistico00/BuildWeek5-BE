@@ -1,8 +1,7 @@
 ﻿using BuildWeek5_BE.Data;
-using BuildWeek5_BE.DTOs.Account;
+using BuildWeek5_BE.DTOs.Clienti;
 using BuildWeek5_BE.DTOs.Puppy;
 using BuildWeek5_BE.Models;
-using BuildWeek5_BE.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 
 namespace BuildWeek5_BE.Services
@@ -43,8 +42,9 @@ namespace BuildWeek5_BE.Services
                     DataNascita = puppy.DataNascita,
                     MicrochipPresente = puppy.MicrochipPresente,
                     NumeroMicrochip = puppy.NumeroMicrochip,
-                    CustomerId = puppy.UserId
+                    ClienteId = puppy.ClienteId
                 };
+
                 return newPuppy;
             }
             catch (Exception ex)
@@ -72,7 +72,7 @@ namespace BuildWeek5_BE.Services
         {
             try
             {
-                return await _context.Puppies.Include(u => u.Customer).ToListAsync();
+                return await _context.Puppies.Include(u => u.Cliente).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -96,16 +96,19 @@ namespace BuildWeek5_BE.Services
                     DataNascita = a.DataNascita,
                     MicrochipPresente = a.MicrochipPresente,
                     NumeroMicrochip = a.NumeroMicrochip,
-                    UserId = a.CustomerId,
-                    User = a.Customer != null ? new UserDto()
+                    ClienteId = a.ClienteId,
+                    Cliente = a.Cliente != null ? new ClienteDto()
                     {
-                        FirstName = a.Customer.Nome,
-                        LastName = a.Customer.Cognome
+                        Id = a.Cliente.Id,
+                        Nome = a.Cliente.Nome,
+                        Cognome = a.Cliente.Cognome
+                        // Add other properties as needed
                     } : null
                 }).ToList();
+
                 return AnimaliDto;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 return null;
@@ -116,8 +119,7 @@ namespace BuildWeek5_BE.Services
         {
             try
             {
-                var animaleById = await _context.Puppies.Include(u => u.Customer).FirstOrDefaultAsync(p => p.PuppyId == id);
-
+                var animaleById = await _context.Puppies.Include(u => u.Cliente).FirstOrDefaultAsync(p => p.PuppyId == id);
                 if (animaleById != null)
                 {
                     var AnimaliDto = new GetAnimaleDto()
@@ -130,17 +132,18 @@ namespace BuildWeek5_BE.Services
                         DataNascita = animaleById.DataNascita,
                         MicrochipPresente = animaleById.MicrochipPresente,
                         NumeroMicrochip = animaleById.NumeroMicrochip,
-                        UserId = animaleById.CustomerId,
-                        User = animaleById.Customer != null ? new UserDto()
+                        ClienteId = animaleById.ClienteId,
+                        Cliente = animaleById.Cliente != null ? new ClienteDto()
                         {
-                            FirstName = animaleById.Customer.Nome,
-                            LastName = animaleById.Customer.Cognome
+                            Id = animaleById.Cliente.Id,
+                            Nome = animaleById.Cliente.Nome,
+                            Cognome = animaleById.Cliente.Cognome
+                            // Add other properties as needed
                         } : null
                     };
-                return AnimaliDto;
+                    return AnimaliDto;
                 }
-
-            return null;
+                return null;
             }
             catch (Exception ex)
             {
@@ -154,12 +157,10 @@ namespace BuildWeek5_BE.Services
             try
             {
                 var existingPuppy = await _context.Puppies.FirstOrDefaultAsync(p => p.PuppyId == id);
-
                 if (existingPuppy == null)
                 {
                     return false;
                 }
-
                 _context.Puppies.Remove(existingPuppy);
                 return await SaveAsync();
             }
@@ -175,7 +176,6 @@ namespace BuildWeek5_BE.Services
             try
             {
                 var existingPuppy = await _context.Puppies.FirstOrDefaultAsync(p => p.PuppyId == id);
-
                 if (existingPuppy == null)
                 {
                     return false;
@@ -187,8 +187,7 @@ namespace BuildWeek5_BE.Services
                 existingPuppy.DataNascita = puppyDto.DataNascita;
                 existingPuppy.MicrochipPresente = puppyDto.MicrochipPresente;
                 existingPuppy.NumeroMicrochip = puppyDto.NumeroMicrochip;
-                existingPuppy.CustomerId = puppyDto.UserId;
-
+                existingPuppy.ClienteId = puppyDto.ClienteId;
 
                 return await SaveAsync();
             }
@@ -203,8 +202,7 @@ namespace BuildWeek5_BE.Services
         {
             try
             {
-                var animaleByChip = await _context.Puppies.Include(u => u.Customer).FirstOrDefaultAsync(p => p.NumeroMicrochip == chipId);
-
+                var animaleByChip = await _context.Puppies.Include(u => u.Cliente).FirstOrDefaultAsync(p => p.NumeroMicrochip == chipId);
                 if (animaleByChip != null)
                 {
                     var AnimaleDto = new GetAnimaleDto()
@@ -217,17 +215,37 @@ namespace BuildWeek5_BE.Services
                         DataNascita = animaleByChip.DataNascita,
                         MicrochipPresente = animaleByChip.MicrochipPresente,
                         NumeroMicrochip = animaleByChip.NumeroMicrochip,
-                        UserId = animaleByChip.CustomerId,
-                        User = new UserDto()
+                        ClienteId = animaleByChip.ClienteId,
+                        Cliente = animaleByChip.Cliente != null ? new ClienteDto()
                         {
-                            FirstName = animaleByChip.Customer.Nome,
-                            LastName = animaleByChip.Customer.Cognome
-                        }
+                            Id = animaleByChip.Cliente.Id,
+                            Nome = animaleByChip.Cliente.Nome,
+                            Cognome = animaleByChip.Cliente.Cognome
+                            // Add other properties as needed
+                        } : null
                     };
                     return AnimaleDto;
                 }
-
                 return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return null;
+            }
+        }
+
+        // Add a method to get puppies by cliente id
+        public async Task<List<GetAnimaleDto>?> GetPuppiesByClienteIdAsync(int clienteId)
+        {
+            try
+            {
+                var animali = await _context.Puppies
+                    .Include(u => u.Cliente)
+                    .Where(p => p.ClienteId == clienteId)
+                    .ToListAsync();
+
+                return await GetPuppiesDtoAsync(animali);
             }
             catch (Exception ex)
             {

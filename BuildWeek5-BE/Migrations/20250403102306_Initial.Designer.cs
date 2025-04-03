@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuildWeek5_BE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250403084836_Initial")]
+    [Migration("20250403102306_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -33,13 +33,13 @@ namespace BuildWeek5_BE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PuppyId"));
 
+                    b.Property<int?>("ClienteId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ColoreMantello")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateOnly>("DataNascita")
                         .HasColumnType("date");
@@ -64,20 +64,17 @@ namespace BuildWeek5_BE.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("PuppyId");
+
+                    b.HasIndex("ClienteId");
 
                     b.HasIndex("NumeroMicrochip")
                         .IsUnique()
                         .HasFilter("[NumeroMicrochip] IS NOT NULL");
 
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("Nome", "CustomerId")
+                    b.HasIndex("Nome", "ClienteId")
                         .IsUnique()
-                        .HasFilter("[CustomerId] IS NOT NULL");
+                        .HasFilter("[ClienteId] IS NOT NULL");
 
                     b.ToTable("Puppies");
                 });
@@ -111,15 +108,15 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ab682615-380a-4076-9e14-7f9873e531da",
-                            ConcurrencyStamp = "ab682615-380a-4076-9e14-7f9873e531da",
+                            Id = "e71310ff-5d1a-462d-8754-050d6c45448e",
+                            ConcurrencyStamp = "e71310ff-5d1a-462d-8754-050d6c45448e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d00e4f18-c9b0-408f-9f16-90f0292420ea",
-                            ConcurrencyStamp = "d00e4f18-c9b0-408f-9f16-90f0292420ea",
+                            Id = "e741012b-4a2b-4e6c-b0ac-4d6a92a93c4f",
+                            ConcurrencyStamp = "e741012b-4a2b-4e6c-b0ac-4d6a92a93c4f",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -189,9 +186,6 @@ namespace BuildWeek5_BE.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -205,8 +199,6 @@ namespace BuildWeek5_BE.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -457,9 +449,6 @@ namespace BuildWeek5_BE.Migrations
                     b.Property<int>("CassettoId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ClienteId")
-                        .HasColumnType("int");
-
                     b.Property<int>("FornitoreId")
                         .HasColumnType("int");
 
@@ -480,8 +469,6 @@ namespace BuildWeek5_BE.Migrations
                     b.HasIndex("ArmadiettoId");
 
                     b.HasIndex("CassettoId");
-
-                    b.HasIndex("ClienteId");
 
                     b.HasIndex("FornitoreId");
 
@@ -563,9 +550,8 @@ namespace BuildWeek5_BE.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -633,6 +619,21 @@ namespace BuildWeek5_BE.Migrations
                     b.HasIndex("PuppyId");
 
                     b.ToTable("Visite");
+                });
+
+            modelBuilder.Entity("ClienteProdotto", b =>
+                {
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ClienteId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ClienteProdotto");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -728,18 +729,11 @@ namespace BuildWeek5_BE.Migrations
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Animale", b =>
                 {
-                    b.HasOne("BuildWeek5_BE.Models.Cliente", "Customer")
+                    b.HasOne("BuildWeek5_BE.Models.Cliente", "Cliente")
                         .WithMany("Animali")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("ClienteId");
 
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("BuildWeek5_BE.Models.Auth.ApplicationUser", b =>
-                {
-                    b.HasOne("BuildWeek5_BE.Models.Farmacia.Prodotto", null)
-                        .WithMany("Cliente")
-                        .HasForeignKey("UserId");
+                    b.Navigation("Cliente");
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Auth.ApplicationUserRole", b =>
@@ -786,10 +780,6 @@ namespace BuildWeek5_BE.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BuildWeek5_BE.Models.Cliente", null)
-                        .WithMany("Prodotti")
-                        .HasForeignKey("ClienteId");
-
                     b.HasOne("BuildWeek5_BE.Models.Farmacia.Fornitore", "Fornitore")
                         .WithMany("Prodotti")
                         .HasForeignKey("FornitoreId")
@@ -830,7 +820,7 @@ namespace BuildWeek5_BE.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BuildWeek5_BE.Models.Auth.ApplicationUser", "User")
+                    b.HasOne("BuildWeek5_BE.Models.Cliente", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -861,6 +851,21 @@ namespace BuildWeek5_BE.Migrations
                         .IsRequired();
 
                     b.Navigation("Animale");
+                });
+
+            modelBuilder.Entity("ClienteProdotto", b =>
+                {
+                    b.HasOne("BuildWeek5_BE.Models.Cliente", null)
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BuildWeek5_BE.Models.Farmacia.Prodotto", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -920,8 +925,6 @@ namespace BuildWeek5_BE.Migrations
                 {
                     b.Navigation("Animali");
 
-                    b.Navigation("Prodotti");
-
                     b.Navigation("UtenteProdotto");
                 });
 
@@ -942,8 +945,6 @@ namespace BuildWeek5_BE.Migrations
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Prodotto", b =>
                 {
-                    b.Navigation("Cliente");
-
                     b.Navigation("UtenteProdotto");
                 });
 #pragma warning restore 612, 618

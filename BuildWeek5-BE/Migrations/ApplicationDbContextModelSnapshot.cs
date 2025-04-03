@@ -30,13 +30,13 @@ namespace BuildWeek5_BE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PuppyId"));
 
+                    b.Property<int?>("ClienteId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ColoreMantello")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateOnly>("DataNascita")
                         .HasColumnType("date");
@@ -61,20 +61,17 @@ namespace BuildWeek5_BE.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("PuppyId");
+
+                    b.HasIndex("ClienteId");
 
                     b.HasIndex("NumeroMicrochip")
                         .IsUnique()
                         .HasFilter("[NumeroMicrochip] IS NOT NULL");
 
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("Nome", "CustomerId")
+                    b.HasIndex("Nome", "ClienteId")
                         .IsUnique()
-                        .HasFilter("[CustomerId] IS NOT NULL");
+                        .HasFilter("[ClienteId] IS NOT NULL");
 
                     b.ToTable("Puppies");
                 });
@@ -108,15 +105,15 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "982ef689-dac3-4d69-9fca-b063fd900f46",
-                            ConcurrencyStamp = "982ef689-dac3-4d69-9fca-b063fd900f46",
+                            Id = "e71310ff-5d1a-462d-8754-050d6c45448e",
+                            ConcurrencyStamp = "e71310ff-5d1a-462d-8754-050d6c45448e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b7a3312a-8a5c-42e2-80aa-7e255e06bb77",
-                            ConcurrencyStamp = "b7a3312a-8a5c-42e2-80aa-7e255e06bb77",
+                            Id = "e741012b-4a2b-4e6c-b0ac-4d6a92a93c4f",
+                            ConcurrencyStamp = "e741012b-4a2b-4e6c-b0ac-4d6a92a93c4f",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -729,11 +726,11 @@ namespace BuildWeek5_BE.Migrations
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Animale", b =>
                 {
-                    b.HasOne("BuildWeek5_BE.Models.Cliente", "Customer")
+                    b.HasOne("BuildWeek5_BE.Models.Cliente", "Cliente")
                         .WithMany("Animali")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("ClienteId");
 
-                    b.Navigation("Customer");
+                    b.Navigation("Cliente");
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Auth.ApplicationUserRole", b =>

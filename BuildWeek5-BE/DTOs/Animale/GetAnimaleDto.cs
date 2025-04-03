@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using BuildWeek5_BE.DTOs.Account;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using BuildWeek5_BE.DTOs.Clienti;
 
 namespace BuildWeek5_BE.DTOs.Puppy
 {
@@ -35,9 +35,9 @@ namespace BuildWeek5_BE.DTOs.Puppy
         [StringLength(15)]
         public string? NumeroMicrochip { get; set; }
 
-        [ForeignKey("User")]
-        public string? UserId { get; set; }
+        [ForeignKey("Cliente")]
+        public int? ClienteId { get; set; }
 
-        public UserDto? User { get; set; }
+        public ClienteDto? Cliente { get; set; }
     }
 }

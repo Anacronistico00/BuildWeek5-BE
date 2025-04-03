@@ -40,6 +40,35 @@ namespace BuildWeek5_BE.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    FiscalCode = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Clienti",
                 columns: table => new
                 {
@@ -108,179 +137,6 @@ namespace BuildWeek5_BE.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Puppies",
-                columns: table => new
-                {
-                    PuppyId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DataRegistrazione = table.Column<DateOnly>(type: "date", nullable: false),
-                    Nome = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Tipologia = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ColoreMantello = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    DataNascita = table.Column<DateOnly>(type: "date", nullable: false),
-                    MicrochipPresente = table.Column<bool>(type: "bit", nullable: false),
-                    NumeroMicrochip = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Puppies", x => x.PuppyId);
-                    table.ForeignKey(
-                        name: "FK_Puppies_Clienti_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Clienti",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Prodotti",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    FornitoreId = table.Column<int>(type: "int", nullable: false),
-                    UsiProdotto = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CassettoId = table.Column<int>(type: "int", nullable: false),
-                    ArmadiettoId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClienteId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Prodotti", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Prodotti_Armadietti_ArmadiettoId",
-                        column: x => x.ArmadiettoId,
-                        principalTable: "Armadietti",
-                        principalColumn: "ArmadiettoId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Prodotti_Cassetti_CassettoId",
-                        column: x => x.CassettoId,
-                        principalTable: "Cassetti",
-                        principalColumn: "CassettoId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Prodotti_Clienti_ClienteId",
-                        column: x => x.ClienteId,
-                        principalTable: "Clienti",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Prodotti_Fornitori_FornitoreId",
-                        column: x => x.FornitoreId,
-                        principalTable: "Fornitori",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Ricoveri",
-                columns: table => new
-                {
-                    RicoveroId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PuppyId = table.Column<int>(type: "int", nullable: false),
-                    DataInizioRicovero = table.Column<DateOnly>(type: "date", nullable: false),
-                    Descrizione = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DataFineRicovero = table.Column<DateOnly>(type: "date", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Ricoveri", x => x.RicoveroId);
-                    table.ForeignKey(
-                        name: "FK_Ricoveri_Puppies_PuppyId",
-                        column: x => x.PuppyId,
-                        principalTable: "Puppies",
-                        principalColumn: "PuppyId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Visite",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DataVisita = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ObiettivoEsame = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    DescrizioneCura = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    PuppyId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Visite", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Visite_Puppies_PuppyId",
-                        column: x => x.PuppyId,
-                        principalTable: "Puppies",
-                        principalColumn: "PuppyId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    FiscalCode = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Prodotti_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Prodotti",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UtentiProdotti",
-                columns: table => new
-                {
-                    prodottoId = table.Column<int>(type: "int", nullable: false),
-                    utenteId = table.Column<int>(type: "int", nullable: false),
-                    DataAcquisto = table.Column<DateOnly>(type: "date", nullable: false),
-                    NumeroRicettaMedica = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UtentiProdotti", x => new { x.utenteId, x.prodottoId });
-                    table.ForeignKey(
-                        name: "FK_UtentiProdotti_Clienti_utenteId",
-                        column: x => x.utenteId,
-                        principalTable: "Clienti",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UtentiProdotti_Prodotti_prodottoId",
-                        column: x => x.prodottoId,
-                        principalTable: "Prodotti",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -372,12 +228,167 @@ namespace BuildWeek5_BE.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Puppies",
+                columns: table => new
+                {
+                    PuppyId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DataRegistrazione = table.Column<DateOnly>(type: "date", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Tipologia = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ColoreMantello = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DataNascita = table.Column<DateOnly>(type: "date", nullable: false),
+                    MicrochipPresente = table.Column<bool>(type: "bit", nullable: false),
+                    NumeroMicrochip = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    ClienteId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Puppies", x => x.PuppyId);
+                    table.ForeignKey(
+                        name: "FK_Puppies_Clienti_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Clienti",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Prodotti",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    FornitoreId = table.Column<int>(type: "int", nullable: false),
+                    UsiProdotto = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CassettoId = table.Column<int>(type: "int", nullable: false),
+                    ArmadiettoId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Prodotti", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Prodotti_Armadietti_ArmadiettoId",
+                        column: x => x.ArmadiettoId,
+                        principalTable: "Armadietti",
+                        principalColumn: "ArmadiettoId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Prodotti_Cassetti_CassettoId",
+                        column: x => x.CassettoId,
+                        principalTable: "Cassetti",
+                        principalColumn: "CassettoId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Prodotti_Fornitori_FornitoreId",
+                        column: x => x.FornitoreId,
+                        principalTable: "Fornitori",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ricoveri",
+                columns: table => new
+                {
+                    RicoveroId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PuppyId = table.Column<int>(type: "int", nullable: false),
+                    DataInizioRicovero = table.Column<DateOnly>(type: "date", nullable: false),
+                    Descrizione = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DataFineRicovero = table.Column<DateOnly>(type: "date", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ricoveri", x => x.RicoveroId);
+                    table.ForeignKey(
+                        name: "FK_Ricoveri_Puppies_PuppyId",
+                        column: x => x.PuppyId,
+                        principalTable: "Puppies",
+                        principalColumn: "PuppyId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Visite",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DataVisita = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ObiettivoEsame = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DescrizioneCura = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    PuppyId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Visite", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Visite_Puppies_PuppyId",
+                        column: x => x.PuppyId,
+                        principalTable: "Puppies",
+                        principalColumn: "PuppyId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClienteProdotto",
+                columns: table => new
+                {
+                    ClienteId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClienteProdotto", x => new { x.ClienteId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_ClienteProdotto_Clienti_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Clienti",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClienteProdotto_Prodotti_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Prodotti",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UtentiProdotti",
+                columns: table => new
+                {
+                    prodottoId = table.Column<int>(type: "int", nullable: false),
+                    utenteId = table.Column<int>(type: "int", nullable: false),
+                    DataAcquisto = table.Column<DateOnly>(type: "date", nullable: false),
+                    NumeroRicettaMedica = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UtentiProdotti", x => new { x.utenteId, x.prodottoId });
+                    table.ForeignKey(
+                        name: "FK_UtentiProdotti_Clienti_utenteId",
+                        column: x => x.utenteId,
+                        principalTable: "Clienti",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UtentiProdotti_Prodotti_prodottoId",
+                        column: x => x.prodottoId,
+                        principalTable: "Prodotti",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Vendite",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     RicettaMedica = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ProdottoId = table.Column<int>(type: "int", nullable: false),
                     NumeroRicettaMedica = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -387,9 +398,9 @@ namespace BuildWeek5_BE.Migrations
                 {
                     table.PrimaryKey("PK_Vendite", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Vendite_AspNetUsers_UserId",
+                        name: "FK_Vendite_Clienti_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Clienti",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -415,8 +426,8 @@ namespace BuildWeek5_BE.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ab682615-380a-4076-9e14-7f9873e531da", "ab682615-380a-4076-9e14-7f9873e531da", "Admin", "ADMIN" },
-                    { "d00e4f18-c9b0-408f-9f16-90f0292420ea", "d00e4f18-c9b0-408f-9f16-90f0292420ea", "User", "USER" }
+                    { "e71310ff-5d1a-462d-8754-050d6c45448e", "e71310ff-5d1a-462d-8754-050d6c45448e", "Admin", "ADMIN" },
+                    { "e741012b-4a2b-4e6c-b0ac-4d6a92a93c4f", "e741012b-4a2b-4e6c-b0ac-4d6a92a93c4f", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -453,12 +464,12 @@ namespace BuildWeek5_BE.Migrations
 
             migrationBuilder.InsertData(
                 table: "Prodotti",
-                columns: new[] { "Id", "ArmadiettoId", "CassettoId", "ClienteId", "FornitoreId", "Nome", "UserId", "UsiProdotto" },
+                columns: new[] { "Id", "ArmadiettoId", "CassettoId", "FornitoreId", "Nome", "UserId", "UsiProdotto" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, null, 1, "Antibiotico X", null, "Antibiotico per la cura di infezioni dovute ai parassiti" },
-                    { 2, 2, 2, null, 2, "Antiparassitario Y", null, "Protegge da pulci, zecche e pappataci" },
-                    { 3, 3, 3, null, 3, "Integratore Z", null, "Stimola la circolazione e aiuta a integrare le vitamine e minerali mancanti" }
+                    { 1, 1, 1, 1, "Antibiotico X", null, "Antibiotico per la cura di infezioni dovute ai parassiti" },
+                    { 2, 2, 2, 2, "Antiparassitario Y", null, "Protegge da pulci, zecche e pappataci" },
+                    { 3, 3, 3, 3, "Integratore Z", null, "Stimola la circolazione e aiuta a integrare le vitamine e minerali mancanti" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -494,11 +505,6 @@ namespace BuildWeek5_BE.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_UserId",
-                table: "AspNetUsers",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -511,6 +517,11 @@ namespace BuildWeek5_BE.Migrations
                 column: "ArmadiettoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClienteProdotto_UserId",
+                table: "ClienteProdotto",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Prodotti_ArmadiettoId",
                 table: "Prodotti",
                 column: "ArmadiettoId");
@@ -519,11 +530,6 @@ namespace BuildWeek5_BE.Migrations
                 name: "IX_Prodotti_CassettoId",
                 table: "Prodotti",
                 column: "CassettoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Prodotti_ClienteId",
-                table: "Prodotti",
-                column: "ClienteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Prodotti_FornitoreId",
@@ -537,11 +543,16 @@ namespace BuildWeek5_BE.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Puppies_Nome_CustomerId",
+                name: "IX_Puppies_ClienteId",
                 table: "Puppies",
-                columns: new[] { "Nome", "CustomerId" },
+                column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Puppies_Nome_ClienteId",
+                table: "Puppies",
+                columns: new[] { "Nome", "ClienteId" },
                 unique: true,
-                filter: "[CustomerId] IS NOT NULL");
+                filter: "[ClienteId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Puppies_NumeroMicrochip",
@@ -549,11 +560,6 @@ namespace BuildWeek5_BE.Migrations
                 column: "NumeroMicrochip",
                 unique: true,
                 filter: "[NumeroMicrochip] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Puppies_UserId",
-                table: "Puppies",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ricoveri_PuppyId",
@@ -600,6 +606,9 @@ namespace BuildWeek5_BE.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ClienteProdotto");
+
+            migrationBuilder.DropTable(
                 name: "Ricoveri");
 
             migrationBuilder.DropTable(
@@ -618,19 +627,19 @@ namespace BuildWeek5_BE.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Puppies");
+                name: "Prodotti");
 
             migrationBuilder.DropTable(
-                name: "Prodotti");
+                name: "Puppies");
 
             migrationBuilder.DropTable(
                 name: "Cassetti");
 
             migrationBuilder.DropTable(
-                name: "Clienti");
+                name: "Fornitori");
 
             migrationBuilder.DropTable(
-                name: "Fornitori");
+                name: "Clienti");
 
             migrationBuilder.DropTable(
                 name: "Armadietti");

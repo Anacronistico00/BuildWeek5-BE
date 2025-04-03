@@ -25,7 +25,7 @@ namespace BuildWeek5_BE.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddPuppy ([FromBody] AddAnimaleRequestDto puppy)
+        public async Task<IActionResult> AddPuppy([FromBody] AddAnimaleRequestDto puppy)
         {
             var newPuppy = await _animaleService.CreatePuppyAsync(puppy);
 
@@ -34,12 +34,10 @@ namespace BuildWeek5_BE.Controllers
                 return BadRequest(new
                 {
                     message = "Failed to add a new Puppy!!!"
-                }
-                );
+                });
             }
 
             var result = await _animaleService.AddPuppyAsync(newPuppy);
-
 
             return result ? Ok(new AddAnimaleResponseDto()
             {
@@ -56,7 +54,6 @@ namespace BuildWeek5_BE.Controllers
         {
             try
             {
-
                 List<Animale> puppies = await _animaleService.GetPuppiesAsync();
 
                 if (puppies == null)
@@ -108,6 +105,37 @@ namespace BuildWeek5_BE.Controllers
             });
         }
 
+        [HttpGet("cliente/{clienteId:int}")]
+        [Authorize]
+        public async Task<IActionResult> GetPuppiesByClienteId(int clienteId)
+        {
+            var puppiesDto = await _animaleService.GetPuppiesByClienteIdAsync(clienteId);
+
+            if (puppiesDto == null)
+            {
+                return BadRequest(new GetAnimaleResponseDto()
+                {
+                    Message = "Something went wrong",
+                    Puppies = null
+                });
+            }
+
+            if (!puppiesDto.Any())
+            {
+                return NotFound(new GetAnimaleResponseDto()
+                {
+                    Message = $"No puppies found for cliente with ID {clienteId}!",
+                    Puppies = null
+                });
+            }
+
+            return Ok(new GetAnimaleResponseDto()
+            {
+                Message = $"Puppies for cliente {clienteId} correctly retrieved",
+                Puppies = puppiesDto
+            });
+        }
+
         [HttpDelete("{id:int}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeletePuppy(int id)
@@ -133,7 +161,7 @@ namespace BuildWeek5_BE.Controllers
                           : BadRequest(new { Message = "Something went wrong!" });
         }
 
-        [HttpGet("{NumeroMicrochip}")]
+        [HttpGet("microchip/{NumeroMicrochip}")]
         public async Task<IActionResult> SearchByChip(string NumeroMicrochip)
         {
             var result = await _animaleService.SearchByChipAsync(NumeroMicrochip);
