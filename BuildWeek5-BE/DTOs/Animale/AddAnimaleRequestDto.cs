@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BuildWeek5_BE.DTOs.Puppy
 {
@@ -27,6 +26,6 @@ namespace BuildWeek5_BE.DTOs.Puppy
         [StringLength(15)]
         public string? NumeroMicrochip { get; set; }
 
-        public int? UserId { get; set; }
+        public int? ClienteId { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace BuildWeek5_BE.Data
             modelBuilder.Entity<Animale>().HasMany(a => a.Visite).WithOne(p => p.Animale).HasForeignKey("PuppyId");
             modelBuilder.Entity<Animale>().HasMany(r => r.Ricoveri).WithOne(p => p.Puppy).HasForeignKey("PuppyId");
             modelBuilder.Entity<Animale>().HasIndex(u => u.NumeroMicrochip).IsUnique();
-            modelBuilder.Entity<Animale>().HasIndex(u => new { u.Nome, u.CustomerId }).IsUnique();
+            modelBuilder.Entity<Animale>().HasIndex(u => new { u.Nome, u.ClienteId }).IsUnique();
 
             modelBuilder.Entity<Prodotto>().HasIndex(p => p.Nome).IsUnique();
             modelBuilder.Entity<Prodotto>().HasOne(p => p.Cassetto).WithMany(p => p.prodotti).HasForeignKey(p => p.CassettoId).OnDelete(DeleteBehavior.Restrict);

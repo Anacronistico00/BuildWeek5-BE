@@ -125,6 +125,7 @@ try
     builder.Services.AddScoped<FarmaciaService>();
     builder.Services.AddScoped<ClienteService>();
 
+
     builder.Host.UseSerilog();
 
     var app = builder.Build();
