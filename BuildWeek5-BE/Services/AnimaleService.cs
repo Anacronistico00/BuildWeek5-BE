@@ -102,7 +102,6 @@ namespace BuildWeek5_BE.Services
                         Id = a.Cliente.Id,
                         Nome = a.Cliente.Nome,
                         Cognome = a.Cliente.Cognome
-                        // Add other properties as needed
                     } : null
                 }).ToList();
 
