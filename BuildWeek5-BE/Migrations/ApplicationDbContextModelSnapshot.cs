@@ -105,15 +105,17 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e71310ff-5d1a-462d-8754-050d6c45448e",
-                            ConcurrencyStamp = "e71310ff-5d1a-462d-8754-050d6c45448e",
+
+                            Id = "0fde20e2-4ca8-4157-8d6e-f5622221cbda",
+                            ConcurrencyStamp = "0fde20e2-4ca8-4157-8d6e-f5622221cbda",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "e741012b-4a2b-4e6c-b0ac-4d6a92a93c4f",
-                            ConcurrencyStamp = "e741012b-4a2b-4e6c-b0ac-4d6a92a93c4f",
+
+                            Id = "4e254e4e-514f-4548-bbd3-e92f200b3e8a",
+                            ConcurrencyStamp = "4e254e4e-514f-4548-bbd3-e92f200b3e8a",
                             Name = "User",
                             NormalizedName = "USER"
                         });
