@@ -372,6 +372,12 @@ namespace BuildWeek5_BE.Controllers
             }
         }
 
+
+        // -----------------------------------------------   Fine Controller Fornitore   ---------------------------------------------------------------------------//
+
+        // -----------------------------------------------   Inizio Controller Farmaco   ---------------------------------------------------------------------------//
+
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddFarmaco([FromBody] AddProdottoRequestDto prodotto)
@@ -504,5 +510,8 @@ namespace BuildWeek5_BE.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        // -----------------------------------------------   Fine Controller Farmaco   ---------------------------------------------------------------------------//
+
     }
 }
