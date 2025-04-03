@@ -36,7 +36,7 @@ namespace BuildWeek5_BE.Services
             {
                 var newVisita = new Visita()
                 {
-                    DataVisita = DateTime.Now,
+                    DataVisita = visita.DataVisita,
                     ObiettivoEsame = visita.ObiettivoEsame,
                     DescrizioneCura = visita.DescrizioneCura,
                     PuppyId = visita.PuppyId,

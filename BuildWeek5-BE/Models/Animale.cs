@@ -37,10 +37,10 @@ namespace BuildWeek5_BE.Models
         [StringLength(15)]
         public string? NumeroMicrochip { get; set; }
 
-        [ForeignKey("User")]
-        public string? UserId { get; set; }
+        public string? CustomerId { get; set; }
 
-        public ApplicationUser? User { get; set; }
+        [ForeignKey("UserId")]
+        public Cliente? Customer { get; set; }
 
         public ICollection<Visita>? Visite { get; set; }
 

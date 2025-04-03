@@ -4,6 +4,7 @@ using BuildWeek5_BE.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuildWeek5_BE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250403085217_Initial2")]
+    partial class Initial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,15 +111,15 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "982ef689-dac3-4d69-9fca-b063fd900f46",
-                            ConcurrencyStamp = "982ef689-dac3-4d69-9fca-b063fd900f46",
+                            Id = "cdd50339-7fb2-45c2-b5fa-d82670b3051f",
+                            ConcurrencyStamp = "cdd50339-7fb2-45c2-b5fa-d82670b3051f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b7a3312a-8a5c-42e2-80aa-7e255e06bb77",
-                            ConcurrencyStamp = "b7a3312a-8a5c-42e2-80aa-7e255e06bb77",
+                            Id = "d689b786-d367-4271-877b-6ddbd8241ce4",
+                            ConcurrencyStamp = "d689b786-d367-4271-877b-6ddbd8241ce4",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -550,8 +553,9 @@ namespace BuildWeek5_BE.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -820,7 +824,7 @@ namespace BuildWeek5_BE.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BuildWeek5_BE.Models.Cliente", "User")
+                    b.HasOne("BuildWeek5_BE.Models.Auth.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

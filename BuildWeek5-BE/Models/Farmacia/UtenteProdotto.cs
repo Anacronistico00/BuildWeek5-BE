@@ -7,7 +7,7 @@ namespace BuildWeek5_BE.Models.Farmacia
     {
         public int prodottoId { get; set; }
 
-        public string utenteId { get; set; }
+        public int utenteId { get; set; }
 
         public DateOnly DataAcquisto { get; set; } = DateOnly.FromDateTime(DateTime.Now);
         public string? NumeroRicettaMedica { get; set; }
@@ -16,6 +16,6 @@ namespace BuildWeek5_BE.Models.Farmacia
         public Prodotto Prodotto { get; set; }
 
         [ForeignKey(nameof(utenteId))]
-        public ApplicationUser Cliente { get; set; }
+        public Cliente Cliente { get; set; }
     }
 }

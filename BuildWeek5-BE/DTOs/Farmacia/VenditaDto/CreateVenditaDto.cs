@@ -7,6 +7,8 @@ namespace BuildWeek5_BE.DTOs.Farmacia.Vendita
         [Required(ErrorMessage = "L'ID del prodotto è obbligatorio")]
         public int ProdottoId { get; set; }
 
+        [Required(ErrorMessage = "L'ID del cliente è obbligatorio")]
+        public string CustomerId { get; set; }
 
         [Required(ErrorMessage = "La ricetta medica è obbligatoria")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "La ricetta medica deve essere compresa tra 3 e 100 caratteri")]

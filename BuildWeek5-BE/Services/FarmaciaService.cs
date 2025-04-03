@@ -139,7 +139,7 @@ namespace BuildWeek5_BE.Services
                         vendite = prodottoById.UtenteProdotto != null
                         ? prodottoById.UtenteProdotto.Select(v => new UtenteProdottoDto()
                         {
-                            CodiceFiscale = v.Cliente.FiscalCode,
+                            CodiceFiscale = v.Cliente.CodiceFiscale,
                             DataAcquisto = v.DataAcquisto,
                             NumeroRicettaMedica = v.NumeroRicettaMedica
                         }).ToList() : null,

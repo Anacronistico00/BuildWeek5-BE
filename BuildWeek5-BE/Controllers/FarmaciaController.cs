@@ -153,14 +153,9 @@ namespace BuildWeek5_BE.Controllers
         {
             try
             {
-                // ID utente corrente dal token JWT
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (string.IsNullOrEmpty(userId))
-                {
-                    return Unauthorized("Utente non autenticato");
-                }
+                
 
-                var vendita = await _venditaService.CreateVenditaAsync(createVenditaDto, userId);
+                var vendita = await _venditaService.CreateVenditaAsync(createVenditaDto);
                 return CreatedAtAction(nameof(GetVenditaById), new { id = vendita.Id }, vendita);
             }
             catch (KeyNotFoundException ex)

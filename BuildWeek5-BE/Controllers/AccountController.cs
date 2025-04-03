@@ -61,15 +61,7 @@ namespace BuildWeek5_BE.Controllers
                 return BadRequest();
             }
 
-            var adminUsers = await _userManager.GetUsersInRoleAsync("Admin");
-            if (adminUsers.Count < 3)
-            {
-                await _userManager.AddToRoleAsync(newUser, "Admin");
-            }
-            else
-            {
-                await _userManager.AddToRoleAsync(newUser, "User");
-            }
+            await _userManager.AddToRoleAsync(newUser, "Admin");
 
             return Ok();
         }
@@ -118,35 +110,6 @@ namespace BuildWeek5_BE.Controllers
                 Token = tokenString,
                 Expires = expiry
             });
-        }
-
-        [HttpPost("NewUser")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> NewUser([FromBody] RegisterRequestDto registerRequestDto)
-        {
-
-            var newUser = new ApplicationUser()
-            {
-                Email = registerRequestDto.Email,
-                UserName = registerRequestDto.Email,
-                FirstName = registerRequestDto.FirstName,
-                LastName = registerRequestDto.LastName,
-                BirthDate = registerRequestDto.BirthDate,
-                FiscalCode = registerRequestDto.FiscalCode
-            };
-
-            var result = await _userManager.CreateAsync(newUser, registerRequestDto.Password);
-
-            if (!result.Succeeded)
-            {
-                return BadRequest();
-            }
-
-            var user = await _userManager.FindByEmailAsync(newUser.Email);
-
-            await _userManager.AddToRoleAsync(newUser, "User");
-
-            return Ok();
         }
     }
 }

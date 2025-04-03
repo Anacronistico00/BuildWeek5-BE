@@ -1,6 +1,7 @@
 ﻿using BuildWeek5_BE.Data;
 using BuildWeek5_BE.DTOs.Farmacia;
 using BuildWeek5_BE.DTOs.Farmacia.Vendita;
+using BuildWeek5_BE.Models;
 using BuildWeek5_BE.Models.Farmacia;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -33,7 +34,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                     {
                         Id = v.Id,
                         UserId = v.UserId,
-                        UserName = $"{v.User.FirstName} {v.User.LastName}",
+                        UserName = $"{v.User.Nome} {v.User.Cognome}",
                         ProdottoId = v.ProdottoId,
                         NomeProdotto = v.Prodotto.Nome,
                         PrezzoProdotto = 0, //prezzo non disponibile
@@ -69,7 +70,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                 {
                     Id = vendita.Id,
                     UserId = vendita.UserId,
-                    UserName = $"{vendita.User.FirstName} {vendita.User.LastName}",
+                    UserName = $"{vendita.User.Nome} {vendita.User.Cognome}",
                     ProdottoId = vendita.ProdottoId,
                     NomeProdotto = vendita.Prodotto.Nome,
                     PrezzoProdotto = 0, //prezzo non disponibile
@@ -90,8 +91,8 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
         {
             try
             {
-                var user = await _context.Users
-                    .FirstOrDefaultAsync(u => u.FiscalCode == FiscalCode);
+                var user = await _context.Clienti
+                    .FirstOrDefaultAsync(u => u.CodiceFiscale == FiscalCode);
 
                 if (user == null)
                 {
@@ -106,7 +107,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                     {
                         Id = v.Id,
                         UserId = v.UserId,
-                        UserName = $"{v.User.FirstName} {v.User.LastName}",
+                        UserName = $"{v.User.Nome} {v.User.Cognome}",
                         ProdottoId = v.ProdottoId,
                         NomeProdotto = v.Prodotto.Nome,
                         NumeroRicettaMedica = v.NumeroRicettaMedica,
@@ -143,7 +144,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                 {
                     Id = vendita.Id,
                     UserId = vendita.UserId,
-                    UserName = $"{vendita.User.FirstName} {vendita.User.LastName}",
+                    UserName = $"{vendita.User.Nome} {vendita.User.Cognome}",
                     ProdottoId = vendita.ProdottoId,
                     NomeProdotto = vendita.Prodotto.Nome,
                     NumeroRicettaMedica = vendita.NumeroRicettaMedica,
@@ -171,7 +172,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                     {
                         Id = v.Id,
                         UserId = v.UserId,
-                        UserName = $"{v.User.FirstName} {v.User.LastName}",
+                        UserName = $"{v.User.Nome} {v.User.Cognome}",
                         ProdottoId = v.ProdottoId,
                         NomeProdotto = v.Prodotto.Nome,
                         PrezzoProdotto = 0, //prezzo non disponibile
@@ -188,7 +189,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
             }
         }
 
-        public async Task<VenditaDto> CreateVenditaAsync(CreateVenditaDto createVenditaDto, string userId)
+        public async Task<VenditaDto> CreateVenditaAsync(CreateVenditaDto createVenditaDto)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -200,18 +201,20 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                     throw new KeyNotFoundException($"Prodotto con ID {createVenditaDto.ProdottoId} non trovato");
                 }
 
+                var CustomerFC = createVenditaDto.CustomerId;
+
                 // Verifica che l'utente esista
-                var user = await _context.Users.FindAsync(userId);
+                var user = await FindCustomerAsync(CustomerFC);
                 if (user == null)
                 {
-                    throw new KeyNotFoundException($"Utente con ID {userId} non trovato");
+                    throw new KeyNotFoundException($"Utente con CF {CustomerFC} non trovato");
                 }
 
                 // Crea la nuova vendita
                 var vendita = new Models.Farmacia.Vendita
                 {
                     ProdottoId = createVenditaDto.ProdottoId,
-                    UserId = userId,
+                    UserId = user.Id,
                     RicettaMedica = createVenditaDto.RicettaMedica,
                     NumeroRicettaMedica = createVenditaDto.NumeroRicettaMedica,
                     DataVendita = DateTime.Now
@@ -228,7 +231,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                 {
                     Id = vendita.Id,
                     UserId = vendita.UserId,
-                    UserName = $"{vendita.User.FirstName} {vendita.User.LastName}",
+                    UserName = $"{vendita.User.Nome}{vendita.User.Cognome}",
                     ProdottoId = vendita.ProdottoId,
                     NomeProdotto = vendita.Prodotto.Nome,
                     PrezzoProdotto = 0, // prezzo non disponibile
@@ -241,6 +244,27 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
             {
                 await transaction.RollbackAsync();
                 _logger.LogError(ex, "Errore durante la creazione di una nuova vendita");
+                throw;
+            }
+        }
+
+        public async Task<Cliente> FindCustomerAsync(string CustomerFC)
+        {
+            try
+            {
+                var cliente = await _context.Clienti
+            .FirstOrDefaultAsync(c => c.CodiceFiscale == CustomerFC);
+
+                if (cliente == null)
+                {
+                    _logger.LogWarning("Cliente non trovato con il codice fiscale: {CodiceFiscale}", CustomerFC);
+                }
+
+                return cliente;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Errore durante la Ricerca del cliente");
                 throw;
             }
         }
@@ -270,7 +294,7 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
                 {
                     Id = vendita.Id,
                     UserId = vendita.UserId,
-                    UserName = $"{vendita.User.FirstName} {vendita.User.LastName}",
+                    UserName = $"{vendita.User.Nome}{vendita.User.Cognome}",
                     ProdottoId = vendita.ProdottoId,
                     NomeProdotto = vendita.Prodotto.Nome,
                     PrezzoProdotto = 0, //prezzo non disponibile

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuildWeek5_BE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250401155933_Initial")]
+    [Migration("20250403084836_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,21 +24,6 @@ namespace BuildWeek5_BE.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("ApplicationUserProdotto", b =>
-                {
-                    b.Property<string>("ClienteId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ClienteId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ApplicationUserProdotto");
-                });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Animale", b =>
                 {
@@ -52,6 +37,9 @@ namespace BuildWeek5_BE.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateOnly>("DataNascita")
                         .HasColumnType("date");
@@ -76,8 +64,8 @@ namespace BuildWeek5_BE.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("PuppyId");
 
@@ -87,9 +75,9 @@ namespace BuildWeek5_BE.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("Nome", "UserId")
+                    b.HasIndex("Nome", "CustomerId")
                         .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                        .HasFilter("[CustomerId] IS NOT NULL");
 
                     b.ToTable("Puppies");
                 });
@@ -123,15 +111,15 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "affd9b8a-97d5-4427-99f4-b2c99e34c264",
-                            ConcurrencyStamp = "affd9b8a-97d5-4427-99f4-b2c99e34c264",
+                            Id = "ab682615-380a-4076-9e14-7f9873e531da",
+                            ConcurrencyStamp = "ab682615-380a-4076-9e14-7f9873e531da",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2c1e2135-27de-4f92-8e40-53600113f243",
-                            ConcurrencyStamp = "2c1e2135-27de-4f92-8e40-53600113f243",
+                            Id = "d00e4f18-c9b0-408f-9f16-90f0292420ea",
+                            ConcurrencyStamp = "d00e4f18-c9b0-408f-9f16-90f0292420ea",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -201,6 +189,9 @@ namespace BuildWeek5_BE.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -214,6 +205,8 @@ namespace BuildWeek5_BE.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -236,6 +229,45 @@ namespace BuildWeek5_BE.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("BuildWeek5_BE.Models.Cliente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CodiceFiscale")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
+
+                    b.Property<string>("Cognome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("DataDiNascita")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Indirizzo")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("ProdottoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clienti");
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Armadietto", b =>
@@ -425,6 +457,9 @@ namespace BuildWeek5_BE.Migrations
                     b.Property<int>("CassettoId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ClienteId")
+                        .HasColumnType("int");
+
                     b.Property<int>("FornitoreId")
                         .HasColumnType("int");
 
@@ -445,6 +480,8 @@ namespace BuildWeek5_BE.Migrations
                     b.HasIndex("ArmadiettoId");
 
                     b.HasIndex("CassettoId");
+
+                    b.HasIndex("ClienteId");
 
                     b.HasIndex("FornitoreId");
 
@@ -485,8 +522,8 @@ namespace BuildWeek5_BE.Migrations
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.UtenteProdotto", b =>
                 {
-                    b.Property<string>("utenteId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("utenteId")
+                        .HasColumnType("int");
 
                     b.Property<int>("prodottoId")
                         .HasColumnType("int");
@@ -689,28 +726,20 @@ namespace BuildWeek5_BE.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ApplicationUserProdotto", b =>
-                {
-                    b.HasOne("BuildWeek5_BE.Models.Auth.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BuildWeek5_BE.Models.Farmacia.Prodotto", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("BuildWeek5_BE.Models.Animale", b =>
                 {
-                    b.HasOne("BuildWeek5_BE.Models.Auth.ApplicationUser", "User")
-                        .WithMany()
+                    b.HasOne("BuildWeek5_BE.Models.Cliente", "Customer")
+                        .WithMany("Animali")
                         .HasForeignKey("UserId");
 
-                    b.Navigation("User");
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("BuildWeek5_BE.Models.Auth.ApplicationUser", b =>
+                {
+                    b.HasOne("BuildWeek5_BE.Models.Farmacia.Prodotto", null)
+                        .WithMany("Cliente")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Auth.ApplicationUserRole", b =>
@@ -757,6 +786,10 @@ namespace BuildWeek5_BE.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("BuildWeek5_BE.Models.Cliente", null)
+                        .WithMany("Prodotti")
+                        .HasForeignKey("ClienteId");
+
                     b.HasOne("BuildWeek5_BE.Models.Farmacia.Fornitore", "Fornitore")
                         .WithMany("Prodotti")
                         .HasForeignKey("FornitoreId")
@@ -778,7 +811,7 @@ namespace BuildWeek5_BE.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BuildWeek5_BE.Models.Auth.ApplicationUser", "Cliente")
+                    b.HasOne("BuildWeek5_BE.Models.Cliente", "Cliente")
                         .WithMany("UtenteProdotto")
                         .HasForeignKey("utenteId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -881,6 +914,13 @@ namespace BuildWeek5_BE.Migrations
             modelBuilder.Entity("BuildWeek5_BE.Models.Auth.ApplicationUser", b =>
                 {
                     b.Navigation("ApplicationUserRoles");
+                });
+
+            modelBuilder.Entity("BuildWeek5_BE.Models.Cliente", b =>
+                {
+                    b.Navigation("Animali");
+
+                    b.Navigation("Prodotti");
 
                     b.Navigation("UtenteProdotto");
                 });
@@ -902,6 +942,8 @@ namespace BuildWeek5_BE.Migrations
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Farmacia.Prodotto", b =>
                 {
+                    b.Navigation("Cliente");
+
                     b.Navigation("UtenteProdotto");
                 });
 #pragma warning restore 612, 618

@@ -43,7 +43,7 @@ namespace BuildWeek5_BE.Services
                     DataNascita = puppy.DataNascita,
                     MicrochipPresente = puppy.MicrochipPresente,
                     NumeroMicrochip = puppy.NumeroMicrochip,
-                    UserId = puppy.UserId
+                    CustomerId = puppy.UserId
                 };
                 return newPuppy;
             }
@@ -72,7 +72,7 @@ namespace BuildWeek5_BE.Services
         {
             try
             {
-                return await _context.Puppies.Include(u => u.User).ToListAsync();
+                return await _context.Puppies.Include(u => u.Customer).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -96,11 +96,11 @@ namespace BuildWeek5_BE.Services
                     DataNascita = a.DataNascita,
                     MicrochipPresente = a.MicrochipPresente,
                     NumeroMicrochip = a.NumeroMicrochip,
-                    UserId = a.UserId,
-                    User = a.User != null ? new UserDto()
+                    UserId = a.CustomerId,
+                    User = a.Customer != null ? new UserDto()
                     {
-                        FirstName = a.User.FirstName,
-                        LastName = a.User.LastName
+                        FirstName = a.Customer.Nome,
+                        LastName = a.Customer.Cognome
                     } : null
                 }).ToList();
                 return AnimaliDto;
@@ -116,7 +116,7 @@ namespace BuildWeek5_BE.Services
         {
             try
             {
-                var animaleById = await _context.Puppies.Include(u => u.User).FirstOrDefaultAsync(p => p.PuppyId == id);
+                var animaleById = await _context.Puppies.Include(u => u.Customer).FirstOrDefaultAsync(p => p.PuppyId == id);
 
                 if (animaleById != null)
                 {
@@ -130,11 +130,11 @@ namespace BuildWeek5_BE.Services
                         DataNascita = animaleById.DataNascita,
                         MicrochipPresente = animaleById.MicrochipPresente,
                         NumeroMicrochip = animaleById.NumeroMicrochip,
-                        UserId = animaleById.UserId,
-                        User = animaleById.User != null ? new UserDto()
+                        UserId = animaleById.CustomerId,
+                        User = animaleById.Customer != null ? new UserDto()
                         {
-                            FirstName = animaleById.User.FirstName,
-                            LastName = animaleById.User.LastName
+                            FirstName = animaleById.Customer.Nome,
+                            LastName = animaleById.Customer.Cognome
                         } : null
                     };
                 return AnimaliDto;
@@ -187,7 +187,7 @@ namespace BuildWeek5_BE.Services
                 existingPuppy.DataNascita = puppyDto.DataNascita;
                 existingPuppy.MicrochipPresente = puppyDto.MicrochipPresente;
                 existingPuppy.NumeroMicrochip = puppyDto.NumeroMicrochip;
-                existingPuppy.UserId = puppyDto.UserId;
+                existingPuppy.CustomerId = puppyDto.UserId;
 
 
                 return await SaveAsync();
@@ -203,7 +203,7 @@ namespace BuildWeek5_BE.Services
         {
             try
             {
-                var animaleByChip = await _context.Puppies.Include(u => u.User).FirstOrDefaultAsync(p => p.NumeroMicrochip == chipId);
+                var animaleByChip = await _context.Puppies.Include(u => u.Customer).FirstOrDefaultAsync(p => p.NumeroMicrochip == chipId);
 
                 if (animaleByChip != null)
                 {
@@ -217,11 +217,11 @@ namespace BuildWeek5_BE.Services
                         DataNascita = animaleByChip.DataNascita,
                         MicrochipPresente = animaleByChip.MicrochipPresente,
                         NumeroMicrochip = animaleByChip.NumeroMicrochip,
-                        UserId = animaleByChip.UserId,
+                        UserId = animaleByChip.CustomerId,
                         User = new UserDto()
                         {
-                            FirstName = animaleByChip.User.FirstName,
-                            LastName = animaleByChip.User.LastName
+                            FirstName = animaleByChip.Customer.Nome,
+                            LastName = animaleByChip.Customer.Cognome
                         }
                     };
                     return AnimaleDto;
