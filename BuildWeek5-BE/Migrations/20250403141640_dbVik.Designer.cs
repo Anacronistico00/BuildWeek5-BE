@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuildWeek5_BE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250403102457_Initial")]
-    partial class Initial
+    [Migration("20250403141640_dbVik")]
+    partial class dbVik
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,13 +33,13 @@ namespace BuildWeek5_BE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PuppyId"));
 
+                    b.Property<int?>("ClienteId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ColoreMantello")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
 
                     b.Property<DateOnly>("DataNascita")
                         .HasColumnType("date");
@@ -66,15 +66,15 @@ namespace BuildWeek5_BE.Migrations
 
                     b.HasKey("PuppyId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("ClienteId");
 
                     b.HasIndex("NumeroMicrochip")
                         .IsUnique()
                         .HasFilter("[NumeroMicrochip] IS NOT NULL");
 
-                    b.HasIndex("Nome", "CustomerId")
+                    b.HasIndex("Nome", "ClienteId")
                         .IsUnique()
-                        .HasFilter("[CustomerId] IS NOT NULL");
+                        .HasFilter("[ClienteId] IS NOT NULL");
 
                     b.ToTable("Puppies");
                 });
@@ -108,15 +108,15 @@ namespace BuildWeek5_BE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "922a1ad7-412c-4ab2-bc63-4dbb97402da8",
-                            ConcurrencyStamp = "922a1ad7-412c-4ab2-bc63-4dbb97402da8",
+                            Id = "063f1d89-6b15-42bf-a75e-2fa02b207d84",
+                            ConcurrencyStamp = "063f1d89-6b15-42bf-a75e-2fa02b207d84",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "1247e5bd-fd45-4b25-8746-08f7126de210",
-                            ConcurrencyStamp = "1247e5bd-fd45-4b25-8746-08f7126de210",
+                            Id = "4f7237f7-0dc3-4556-88aa-34b8f9d23d40",
+                            ConcurrencyStamp = "4f7237f7-0dc3-4556-88aa-34b8f9d23d40",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -729,11 +729,11 @@ namespace BuildWeek5_BE.Migrations
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Animale", b =>
                 {
-                    b.HasOne("BuildWeek5_BE.Models.Cliente", "Customer")
+                    b.HasOne("BuildWeek5_BE.Models.Cliente", "Cliente")
                         .WithMany("Animali")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("ClienteId");
 
-                    b.Navigation("Customer");
+                    b.Navigation("Cliente");
                 });
 
             modelBuilder.Entity("BuildWeek5_BE.Models.Auth.ApplicationUserRole", b =>

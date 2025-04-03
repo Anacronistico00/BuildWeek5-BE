@@ -25,74 +25,129 @@ namespace BuildWeek5_BE.Controllers
         }
 
 
-        [HttpPost]
+        [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddPuppy([FromBody] AddClienteRequestDto cliente)
+        public async Task<IActionResult> GetClienti()
         {
-            var newCustomer = await _clienteService.CreateCustomerAsync(cliente);
-
-            if (newCustomer == null)
+            try
             {
-                return BadRequest(new
+                var clientiDto = await _clienteService.GetClientiDtoAsync();
+                if (clientiDto == null)
                 {
-                    message = "Failed to add a new Puppy!!!"
+                    return BadRequest(new { message = "Si è verificato un errore durante il recupero dei clienti" });
                 }
-                );
+
+                if (!clientiDto.Any())
+                {
+                    return NotFound(new { message = "Nessun cliente trovato" });
+                }
+
+                return Ok(new { message = "Clienti recuperati con successo", clienti = clientiDto });
             }
-
-            var result = await _clienteService.AddCustomerAsync(newCustomer);
-
-
-            return result ? Ok(new AddClienteResponseDto()
+            catch (Exception ex)
             {
-                Message = "Customer correctly added!",
-            }) : BadRequest(new AddClienteResponseDto()
-            {
-                Message = "Something went wrong!"
-            });
+                _logger.LogError(ex, "Errore durante il recupero dei clienti");
+                return StatusCode(500, new { message = "Si è verificato un errore interno del server" });
+            }
         }
 
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> GetCustomers()
+        // GET: api/Clienti/id
+        [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetCliente(int id)
         {
+            try
             {
-                try
+                var clienteDto = await _clienteService.GetClienteByIdAsync(id);
+                if (clienteDto == null)
                 {
-
-                    List<Cliente> clienti = await _clienteService.GetCustomersAsync();
-
-                    if (clienti == null)
-                    {
-                        return BadRequest(new GetClientiResponseDto()
-                        {
-                            Message = "Something went wrong",
-                            Customer = null
-                        });
-                    }
-
-                    if (!clienti.Any())
-                    {
-                        return NotFound(new GetClientiResponseDto()
-                        {
-                            Message = "No customers found!",
-                            Customer = null
-                        });
-                    }
-
-                    var clientiDto = await _clienteService.GetCustomersDtoAsync(clienti);
-
-                    return Ok(new GetClientiResponseDto()
-                    {
-                        Message = "Customers correctly get",
-                        Customer = clientiDto
-                    });
+                    return NotFound(new { message = $"Cliente con ID {id} non trovato" });
                 }
-                catch (Exception ex)
+
+                return Ok(new { message = "Cliente recuperato con successo", cliente = clienteDto });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Errore durante il recupero del cliente con ID {id}");
+                return StatusCode(500, new { message = "Si è verificato un errore interno del server" });
+            }
+        }
+
+        // POST: api/Clienti
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> PostCliente([FromBody] ClienteDto clienteDto)
+        {
+            try
+            {
+                var cliente = await _clienteService.CreateClienteAsync(clienteDto);
+                if (cliente == null)
                 {
-                    _logger.LogInformation("Something went wrong!");
-                    return StatusCode(500, ex.Message);
+                    return BadRequest(new { message = "Si è verificato un errore durante la creazione del cliente" });
                 }
+
+                var result = await _clienteService.AddClienteAsync(cliente);
+                if (!result)
+                {
+                    return BadRequest(new { message = "Si è verificato un errore durante il salvataggio del cliente" });
+                }
+
+                clienteDto.Id = cliente.Id;
+                return CreatedAtAction(nameof(GetCliente), new { id = cliente.Id }, new { message = "Cliente creato con successo", cliente = clienteDto });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Errore durante la creazione del cliente");
+                return StatusCode(500, new { message = "Si è verificato un errore interno del server" });
+            }
+        }
+
+        // PUT: api/Clienti/
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> PutCliente(int id, [FromBody] ClienteDto clienteDto)
+        {
+            try
+            {
+                if (id != clienteDto.Id)
+                {
+                    return BadRequest(new { message = "L'ID nella richiesta non corrisponde all'ID del cliente" });
+                }
+
+                var result = await _clienteService.UpdateClienteAsync(id, clienteDto);
+                if (!result)
+                {
+                    return NotFound(new { message = $"Cliente con ID {id} non trovato o aggiornamento fallito" });
+                }
+
+                return Ok(new { message = "Cliente aggiornato con successo" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Errore durante l'aggiornamento del cliente con ID {id}");
+                return StatusCode(500, new { message = "Si è verificato un errore interno del server" });
+            }
+        }
+
+        // DELETE: api/Clienti/
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteCliente(int id)
+        {
+            try
+            {
+                var result = await _clienteService.DeleteClienteAsync(id);
+                if (!result)
+                {
+                    return NotFound(new { message = $"Cliente con ID {id} non trovato o eliminazione fallita. Potrebbe avere animali associati." });
+                }
+
+                return Ok(new { message = "Cliente eliminato con successo" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Errore durante l'eliminazione del cliente con ID {id}");
+                return StatusCode(500, new { message = "Si è verificato un errore interno del server" });
             }
         }
     }

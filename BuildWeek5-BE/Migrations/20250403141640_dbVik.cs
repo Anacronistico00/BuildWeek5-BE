@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BuildWeek5_BE.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class dbVik : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -240,14 +240,14 @@ namespace BuildWeek5_BE.Migrations
                     DataNascita = table.Column<DateOnly>(type: "date", nullable: false),
                     MicrochipPresente = table.Column<bool>(type: "bit", nullable: false),
                     NumeroMicrochip = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    CustomerId = table.Column<int>(type: "int", nullable: true)
+                    ClienteId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Puppies", x => x.PuppyId);
                     table.ForeignKey(
-                        name: "FK_Puppies_Clienti_CustomerId",
-                        column: x => x.CustomerId,
+                        name: "FK_Puppies_Clienti_ClienteId",
+                        column: x => x.ClienteId,
                         principalTable: "Clienti",
                         principalColumn: "Id");
                 });
@@ -426,8 +426,8 @@ namespace BuildWeek5_BE.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1247e5bd-fd45-4b25-8746-08f7126de210", "1247e5bd-fd45-4b25-8746-08f7126de210", "User", "USER" },
-                    { "922a1ad7-412c-4ab2-bc63-4dbb97402da8", "922a1ad7-412c-4ab2-bc63-4dbb97402da8", "Admin", "ADMIN" }
+                    { "063f1d89-6b15-42bf-a75e-2fa02b207d84", "063f1d89-6b15-42bf-a75e-2fa02b207d84", "Admin", "ADMIN" },
+                    { "4f7237f7-0dc3-4556-88aa-34b8f9d23d40", "4f7237f7-0dc3-4556-88aa-34b8f9d23d40", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -543,16 +543,16 @@ namespace BuildWeek5_BE.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Puppies_CustomerId",
+                name: "IX_Puppies_ClienteId",
                 table: "Puppies",
-                column: "CustomerId");
+                column: "ClienteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Puppies_Nome_CustomerId",
+                name: "IX_Puppies_Nome_ClienteId",
                 table: "Puppies",
-                columns: new[] { "Nome", "CustomerId" },
+                columns: new[] { "Nome", "ClienteId" },
                 unique: true,
-                filter: "[CustomerId] IS NOT NULL");
+                filter: "[ClienteId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Puppies_NumeroMicrochip",

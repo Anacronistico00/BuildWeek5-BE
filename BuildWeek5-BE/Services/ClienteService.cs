@@ -85,7 +85,6 @@ namespace BuildWeek5_BE.Services
                     DataDiNascita = cliente.DataDiNascita,
                     Indirizzo = cliente.Indirizzo
                 };
-                return newCliente;
             }
             catch (Exception ex)
             {
