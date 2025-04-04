@@ -162,7 +162,6 @@ namespace BuildWeek5_BE.Controllers
         }
 
         [HttpGet("microchip/{NumeroMicrochip}")]
-        [Authorize(Roles = "Admin")]
 
         public async Task<IActionResult> SearchByChip(string NumeroMicrochip)
         {
