@@ -87,6 +87,31 @@ namespace BuildWeek5_BE.Services.Farmacia.Vendita
             }
         }
 
+        public async Task<List<GetProdottoDateDto>?> GetProdottiByDataAsync(DateOnly data)
+        {
+            try
+            {
+                var prodotti = await _context.Vendite.Include(up => up.Prodotto).Include(up => up.User).Where(up => DateOnly.FromDateTime(up.DataVendita) == data).ToListAsync();
+
+                List<GetProdottoDateDto> prodottiDateDto = prodotti.Select(p =>
+                new GetProdottoDateDto
+                {
+                    Nome = p.Prodotto.Nome,
+                    NomeCliente = $"{p.User.Nome} {p.User.Cognome}",
+                    DataAcquisto = DateOnly.FromDateTime(p.DataVendita),
+                }).ToList();
+
+                return prodottiDateDto;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return null;
+            }
+        }
+
+
+
         public async Task<List<VenditaDto>> GetVenditeByFiscalCodeAsync(string FiscalCode)
         {
             try

@@ -148,6 +148,29 @@ namespace BuildWeek5_BE.Controllers
             }
         }
 
+        // GET per la ricerca di una lista di prodotti per data
+        [HttpGet("vendite/prodotto/bydate/{data}")]
+        [Authorize]
+        public async Task<IActionResult> SearchByDate(DateOnly data)
+        {
+            try
+            {
+                var products = await _venditaService.GetProdottiByDataAsync(data);
+
+                if (products == null || !products.Any())
+                {
+                    return Ok(new { message = "Nessun prodotto trovato per la data specificata" });
+                }
+
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Errore durante il recupero delle vendite per i prodotti in data {data}");
+                return StatusCode(500, "Si è verificato un errore durante l'elaborazione della richiesta");
+            }
+        }
+
         // creare nuova vendita
         [HttpPost("vendite")]
         [Authorize(Roles = "Admin")]
