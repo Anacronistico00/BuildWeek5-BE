@@ -49,7 +49,6 @@ namespace BuildWeek5_BE.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetPuppies()
         {
             try
